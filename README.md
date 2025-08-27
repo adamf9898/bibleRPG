@@ -5,7 +5,7 @@ adamf9898
 
 ---
 
-# **Bible Adventure RPG**
+# **bibleRPG**
 
 ---
 
