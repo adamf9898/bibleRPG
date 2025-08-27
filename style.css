@@ -1,0 +1,122 @@
+body {
+    background: linear-gradient(135deg, #2d3a4a 0%, #4a7a3c 100%);
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    margin-top: 20px;
+    letter-spacing: 2px;
+    text-shadow: 1px 2px 4px #000;
+}
+#gameCanvas {
+    border: 3px solid #fff;
+    background: #222;
+    display: block;
+    margin: 20px auto 0 auto;
+    box-shadow: 0 0 16px #000a;
+}
+#hud {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 20px auto 0 auto;
+    width: 700px;
+    max-width: 95vw;
+}
+#health-bar, #xp-bar {
+    background: #222c;
+    border-radius: 8px;
+    padding: 6px 18px;
+    margin: 0 8px;
+    font-weight: bold;
+    font-size: 1.1em;
+    box-shadow: 0 1px 4px #0006;
+}
+#health-value { color: #e74c3c; }
+#xp-value { color: #f1c40f; }
+#inventory {
+    background: #222c;
+    border-radius: 8px;
+    padding: 6px 18px;
+    min-width: 120px;
+    font-size: 1em;
+    box-shadow: 0 1px 4px #0006;
+}
+#minimap-container {
+    background: #222c;
+    border-radius: 8px;
+    padding: 6px;
+    box-shadow: 0 1px 4px #0006;
+}
+#minimap {
+    border: 1px solid #fff;
+    background: #111;
+    display: block;
+}
+#ui {
+    margin-top: 18px;
+}
+#dialogue, #quest {
+    background: #111e;
+    padding: 12px;
+    margin: 10px auto;
+    width: 420px;
+    border-radius: 10px;
+    min-height: 40px;
+    font-size: 1.1em;
+    box-shadow: 0 2px 8px #0004;
+}
+#quest-log {
+    background: #111e;
+    color: #fff;
+    width: 420px;
+    margin: 18px auto 0 auto;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 1em;
+    box-shadow: 0 2px 8px #0004;
+    text-align: left;
+}
+#scripture-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+#scripture-modal.hidden {
+    display: none;
+}
+#scripture-content {
+    background: #fff;
+    color: #222;
+    padding: 30px 40px;
+    border-radius: 14px;
+    min-width: 320px;
+    max-width: 90vw;
+    font-size: 1.15em;
+    box-shadow: 0 4px 32px #000a;
+    margin-bottom: 18px;
+}
+#close-scripture {
+    padding: 8px 24px;
+    border-radius: 8px;
+    border: none;
+    background: #4a7a3c;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+#close-scripture:hover {
+    background: #3a5a2c;
+}
+@media (max-width: 900px) {
+    #hud { flex-direction: column; width: 98vw; gap: 10px; }
+    #dialogue, #quest, #quest-log { width: 95vw; }
+}

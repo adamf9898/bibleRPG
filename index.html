@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css">
+    <title>bibleRPG</title>
+</head>
+
+<body>
+    <h1>bibleRPG</h1>
+    <div id="app">
+        <canvas id="gameCanvas" width="640" height="480"></canvas>
+        <div id="ui">
+            <div id="dialogue"></div>
+            <div id="quest"></div>
+        </div>
+    </div>
+    <div id="hud">
+        <div id="health-bar"><span id="health-label">Health:</span> <span id="health-value"></span></div>
+        <div id="xp-bar"><span id="xp-label">XP:</span> <span id="xp-value"></span></div>
+        <div id="inventory"></div>
+        <div id="minimap-container">
+            <canvas id="minimap" width="100" height="75"></canvas>
+        </div>
+    </div>
+    <div id="quest-log"></div>
+    <div id="scripture-modal" class="hidden">
+        <div id="scripture-content"></div>
+        <button id="close-scripture">Close</button>
+    </div>
+    <script src="bible.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
