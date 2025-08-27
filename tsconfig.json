@@ -19,7 +19,8 @@
         "strictPropertyInitialization": false,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "forceConsistentCasingInFileNames": true
     },
     "include": [
         "src"
