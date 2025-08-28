@@ -1,169 +1,537 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bible RPG Game</title>
+  <meta charset="utf-8" />
+  <title>Gospel RPG — Faith • Wisdom • Service</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
+    :root{
+      --bg:#0f1222; --panel:#151936; --panel-2:#1c2150; --accent:#7aa2ff; --accent-2:#70f0c4;
+      --text:#e9ebff; --muted:#9aa3cf; --good:#70f0c4; --warn:#ffd166; --bad:#ff6b6b;
+      --btn:#222a63; --btn-hover:#2a3482; --chip:#232a5a;
     }
-    canvas {
-      display: block;
-      margin: 20px auto;
-      background: #e0e0e0;
-      border: 2px solid #333;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.4 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--text); background:linear-gradient(180deg,#0f1222 0%,#0f1428 70%,#0f1222 100%);
     }
-    #menu, #settings, #tutorial {
-      display: none;
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      padding: 20px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    header{
+      padding:16px 20px; border-bottom:1px solid #2b336b; background:rgba(12,14,30,.7); backdrop-filter: blur(6px);
+      display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:2;
     }
-    #menu button, #settings button, #tutorial button {
-      margin: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
+    header h1{margin:0; font-size:18px; font-weight:700; letter-spacing:.3px}
+    header .subtitle{color:var(--muted); font-size:13px}
+    main{
+      display:grid; grid-template-columns: 2.2fr 1.2fr; gap:16px; padding:16px; max-width:1200px; margin:0 auto;
     }
-    #menu button:hover, #settings button:hover, #tutorial button:hover {
-      background-color: #45a049;
+    @media (max-width: 920px){ main{grid-template-columns: 1fr} }
+    .card{
+      background:linear-gradient(180deg,var(--panel) 0%, var(--panel-2) 100%); border:1px solid #262e66; border-radius:12px; overflow:hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,.35);
     }
-    #game-output {
-      margin: 20px auto;
-      text-align: center;
-      font-size: 18px;
-      color: #333;
+    .card h2{
+      margin:0; padding:12px 14px; font-size:14px; color:var(--muted); letter-spacing:.4px; text-transform:uppercase; border-bottom:1px solid #27306a;
+      background:linear-gradient(180deg,#1a1f48 0%,#151936 100%); position:sticky; top:48px; z-index:1;
     }
+    .section{padding:14px}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .stack{display:flex; flex-direction:column; gap:10px}
+    .muted{color:var(--muted)}
+    .pill{
+      display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; background:var(--chip); border:1px solid #2a3470; color:var(--text); font-size:13px;
+    }
+    .bar{
+      height:8px; background:#1b1f45; border-radius:999px; overflow:hidden; border:1px solid #2a3270;
+    }
+    .bar > i{
+      display:block; height:100%; background:linear-gradient(90deg,var(--accent) 0%, var(--accent-2) 100%); width:0%;
+      transition:width .35s ease;
+    }
+    .btn{
+      appearance:none; border:none; cursor:pointer; border-radius:10px; padding:10px 12px; background:var(--btn); color:var(--text);
+      border:1px solid #2a3470; font-weight:600; letter-spacing:.2px; transition: all .15s ease;
+    }
+    .btn:hover{background:var(--btn-hover); transform:translateY(-1px)}
+    .btn:active{transform:translateY(0)}
+    .btn-row{display:flex; gap:10px; flex-wrap:wrap}
+    .choice{display:flex; flex-direction:column; gap:6px; min-width:260px}
+    .choice small{color:var(--muted)}
+    select, .input{
+      background:#161b3f; color:var(--text); border:1px solid #2a3470; border-radius:8px; padding:8px 10px; font-weight:600;
+    }
+    .log{
+      height:220px; overflow:auto; background:rgba(9,11,24,.55); border:1px solid #262f68; border-radius:10px; padding:10px;
+    }
+    .log p{margin:0 0 8px}
+    .token{display:inline-block; margin:4px 6px 0 0; padding:6px 8px; border-radius:8px; border:1px solid #27306a; background:#171b3d; font-size:13px}
+    .kv{display:grid; grid-template-columns: 120px 1fr; gap:6px 10px; align-items:center}
+    .divider{height:1px; background:#27306a; margin:10px 0}
+    .footer{padding:10px 16px; color:var(--muted); font-size:12px; text-align:center}
+    .title-ribbon{
+      display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:8px; border:1px solid #2a3470; background:linear-gradient(180deg,#1c2456,#14193d);
+      box-shadow: inset 0 0 12px rgba(112,240,196,.12);
+    }
+    .good{color:var(--good)} .warn{color:var(--warn)} .bad{color:var(--bad)}
+    .sr{position:absolute; left:-9999px}
   </style>
 </head>
 <body>
-  <canvas id="gameCanvas" width="800" height="400"></canvas>
-  <div id="menu">
-    <h2>Main Menu</h2>
-    <button onclick="startTutorial()">Start Tutorial</button>
-    <button onclick="startGame()">Start Game</button>
-    <button onclick="openSettings()">Settings</button>
-  </div>
-  <div id="settings">
-    <h2>Settings</h2>
-    <p>Adjust game settings below:</p>
-    <label>Sound: <input type="checkbox" id="soundToggle" checked></label><br><br>
-    <button onclick="closeSettings()">Close Settings</button>
-  </div>
-  <div id="tutorial">
-    <h2>Tutorial</h2>
-    <p>Welcome to the Bible RPG Game! Use arrow keys to move your hero and interact with the environment.</p>
-    <button onclick="closeTutorial()">Close Tutorial</button>
-  </div>
-  <div id="game-output"></div>
+  <header>
+    <div style="font-size:18px">✝️</div>
+    <div>
+      <h1>Gospel RPG</h1>
+      <div class="subtitle">Faith • Wisdom • Service — quests, blessings, and milestone miracles</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card" aria-live="polite" aria-atomic="true">
+      <h2>Adventure</h2>
+      <div class="section stack">
+        <div class="row" id="locationRow">
+          <span class="pill">📍 <strong id="locName">Location</strong></span>
+          <label class="pill" for="travelSelect">🧭 <strong>Travel</strong></label>
+          <select id="travelSelect" aria-label="Choose destination"></select>
+          <button class="btn" id="travelBtn">Go</button>
+          <button class="btn" id="resetBtn" title="Clear progress">Reset</button>
+        </div>
+
+        <div class="stack">
+          <div id="scenario" class="section" style="background:#0f132e;border:1px solid #262f68;border-radius:10px"></div>
+          <div class="btn-row" id="choices"></div>
+        </div>
+
+        <div class="stack">
+          <div class="kv">
+            <div>Faith</div>
+            <div class="bar" title="Faith"><i id="faithBar"></i></div>
+            <div>Wisdom</div>
+            <div class="bar" title="Wisdom"><i id="wisdomBar"></i></div>
+            <div>Service</div>
+            <div class="bar" title="Service"><i id="serviceBar"></i></div>
+          </div>
+          <div class="divider"></div>
+          <div class="row">
+            <div class="title-ribbon">🏅 <span id="titleValue">No title yet</span></div>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin:8px 0 6px;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px">Event log</h3>
+          <div class="log" id="log" role="log" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card">
+      <h2>Profile</h2>
+      <div class="section stack">
+        <div class="stack">
+          <div class="row"><span class="pill">📊 <strong>Stats</strong></span></div>
+          <div class="kv">
+            <div>Faith</div><div id="faithVal">0</div>
+            <div>Wisdom</div><div id="wisdomVal">0</div>
+            <div>Service</div><div id="serviceVal">0</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="stack">
+          <div class="row"><span class="pill">🎁 <strong>Rewards</strong></span></div>
+          <div id="rewards" class="row"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="stack">
+          <div class="row"><span class="pill">🗡️ <strong>Current quest</strong></span></div>
+          <div id="questBox" class="stack"></div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="footer">Built as a single-page, offline-ready demo. Progress auto-saves to your browser.</div>
 
   <script>
-    // Canvas Setup
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
+    // ----------------------------
+    // Data tables
+    // ----------------------------
+    const LOCATIONS = ['Galilee','Jerusalem'];
 
-    // Game Variables
-    let gameState = 'menu'; // 'menu', 'tutorial', 'game'
-    let hero = { x: 50, y: 200, width: 30, height: 30, color: 'blue', inventory: [] };
-    let enemy = { x: 700, y: 200, width: 30, height: 30, color: 'red', health: 100 };
-
-    // RPG Data (Refactored Perchance Logic)
-    const rpgData = {
-      heroNames: ["David", "Mary", "Paul", "Esther", "Moses", "Ruth", "Abigail", "Joshua", "Sarah", "Peter"],
-      locations: ["a desert oasis", "Mount Sinai", "Jerusalem", "the Jordan River", "a small village", "a bustling market", "the Red Sea", "a hidden cave"],
-      tasks: ["retrieve the lost scrolls", "heal the wounded", "deliver an important message", "protect villagers from raiders", "discover the hidden psalm", "defend the sacred temple", "rebuild the broken altar"],
-      enemies: ["Roman soldiers", "a roaring lion", "a destructive storm", "a deceptive false prophet", "a horde of locusts", "a deadly spiritual shadow", "a corrupt king"],
-      rewards: ["divine wisdom", "a blessed artifact", "a healed companion", "guidance from a prophet", "the Lord's favor", "rescue for your people", "a miraculous victory"],
-      generateScenario: function(customHero = null) {
-        const heroName = customHero || this.heroNames[Math.floor(Math.random() * this.heroNames.length)];
-        const location = this.locations[Math.floor(Math.random() * this.locations.length)];
-        const task = this.tasks[Math.floor(Math.random() * this.tasks.length)];
-        const enemy = this.enemies[Math.floor(Math.random() * this.enemies.length)];
-        const reward = this.rewards[Math.floor(Math.random() * this.rewards.length)];
-        return `You are ${heroName}, called by God to ${task} in ${location}. Along the way, you must confront ${enemy} to earn ${reward}.`;
-      }
+    const locationFlavors = {
+      Galilee: [
+        'You arrive by the Sea of Galilee as dawn gilds the water.',
+        'Fishermen mend their nets; gulls arc over the tide.',
+        'A hush falls as the wind softens across the shore.'
+      ],
+      Jerusalem: [
+        'Stone steps climb toward the Temple courts, alive with voices.',
+        'Shadows of pillars stretch long across the courtyard.',
+        'Whispers of prophecy linger in the narrow streets.'
+      ]
     };
 
-    // Menu Functions
-    function startTutorial() {
-      document.getElementById('menu').style.display = 'none';
-      document.getElementById('tutorial').style.display = 'block';
-      gameState = 'tutorial';
-    }
+    const questPool = {
+      Galilee: [
+        {
+          id:'fishers_of_men',
+          description:'Share the Good News with the villagers by the shore.',
+          requirements:{faith:2},
+          reward:{type:'title', value:'Fisher of Men'},
+          scripture:'Matthew 4:19'
+        },
+        {
+          id:'calm_the_storm',
+          description:'Pray for calm as the winds rise over the sea.',
+          requirements:{faith:4, wisdom:2},
+          reward:{type:'miracle', value:'Calmed Storm'},
+          scripture:'Mark 4:39'
+        }
+      ],
+      Jerusalem: [
+        {
+          id:'teach_in_temple',
+          description:'Engage in debate with the teachers in the temple courts.',
+          requirements:{wisdom:3},
+          reward:{type:'item', value:'Scroll of Insight'},
+          scripture:'Luke 2:46-47'
+        }
+      ]
+    };
 
-    function closeTutorial() {
-      document.getElementById('tutorial').style.display = 'none';
-      startGame(); // Automatically start the game after tutorial
-    }
+    const milestones = {
+      faith: { 5: { type:'miracle', value:'Parted Waters' } },
+      wisdom:{ 5: { type:'miracle', value:'Prophetic Vision' } },
+      service:{ 5: { type:'miracle', value:'Feeding the Multitude' } }
+    };
 
-    function openSettings() {
-      document.getElementById('menu').style.display = 'none';
-      document.getElementById('settings').style.display = 'block';
-    }
+    const locationBlessings = {
+      Galilee: [
+        {
+          requirements:{faith:3},
+          blessing:{type:'vision', value:'A net overflowing with fish — a promise of abundance.'},
+          scripture:'Luke 5:6'
+        }
+      ],
+      Jerusalem: [
+        {
+          requirements:{wisdom:4, service:2},
+          blessing:{type:'favor', value:'The elders grant you access to the inner courts.'},
+          scripture:'Acts 6:10'
+        }
+      ]
+    };
 
-    function closeSettings() {
-      document.getElementById('settings').style.display = 'none';
-      document.getElementById('menu').style.display = 'block';
-    }
+    const choicesData = [
+      { id:'faith_choice', label:'🙏 Wait upon the Lord’s guidance', stat:'faith', scripture:'Isaiah 40:31' },
+      { id:'wisdom_choice', label:'📖 Seek counsel from the elders', stat:'wisdom', scripture:'Proverbs 11:14' },
+      { id:'service_choice', label:'🤝 Help the wounded traveler', stat:'service', scripture:'Luke 10:33–34' }
+    ];
 
-    function startGame() {
-      document.getElementById('menu').style.display = 'none';
-      gameState = 'game';
-      document.getElementById('game-output').innerText = rpgData.generateScenario();
-      gameLoop();
-    }
+    // ----------------------------
+    // State & persistence
+    // ----------------------------
+    const STORAGE_KEY = 'gospel_rpg_state_v1';
 
-    // Game Loop
-    function gameLoop() {
-      if (gameState !== 'game') return;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw Hero
-      ctx.fillStyle = hero.color;
-      ctx.fillRect(hero.x, hero.y, hero.width, hero.height);
-
-      // Draw Enemy
-      ctx.fillStyle = enemy.color;
-      ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
-
-      // Collision Detection
-      if (hero.x + hero.width > enemy.x &&
-          hero.x < enemy.x + enemy.width &&
-          hero.y + hero.height > enemy.y &&
-          hero.y < enemy.y + enemy.height) {
-        document.getElementById('game-output').innerText = 'You encountered an enemy! Fight to win!';
-        gameState = 'menu'; // Return to menu after encounter
-      }
-
-      requestAnimationFrame(gameLoop);
-    }
-
-    // Keyboard Controls
-    document.addEventListener('keydown', (e) => {
-      if (gameState !== 'game') return;
-
-      if (e.key === 'ArrowUp') hero.y -= 10;
-      if (e.key === 'ArrowDown') hero.y += 10;
-      if (e.key === 'ArrowLeft') hero.x -= 10;
-      if (e.key === 'ArrowRight') hero.x += 10;
+    const defaultState = () => ({
+      stats:{ faith:0, wisdom:0, service:0 },
+      location:'Galilee',
+      rewards:[],   // array of {type,value}
+      items:[],     // derived from rewards
+      title:null,
+      achievedMilestones:{}, // e.g., "faith:5":true
+      currentQuest:null,
+      log:[]
     });
 
-    // Start in Menu
-    document.getElementById('menu').style.display = 'block';
+    let state = load();
+
+    function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)) }
+    function load(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : defaultState();
+      }catch{ return defaultState() }
+    }
+    function reset(){
+      state = defaultState();
+      addLog('🔄 Progress reset.');
+      enterLocation(state.location, {announce:false});
+      render();
+      save();
+    }
+
+    // ----------------------------
+    // Helpers
+    // ----------------------------
+    const $ = sel => document.querySelector(sel);
+    function el(tag, props={}, children=[]){
+      const e = document.createElement(tag);
+      Object.entries(props).forEach(([k,v])=>{
+        if(k==='class') e.className = v;
+        else if(k==='html') e.innerHTML = v;
+        else e.setAttribute(k, v);
+      });
+      [].concat(children).forEach(c => {
+        if(typeof c === 'string') e.appendChild(document.createTextNode(c));
+        else if(c) e.appendChild(c);
+      });
+      return e;
+    }
+    const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+    const meets = (stats, reqs) => Object.entries(reqs).every(([s,val]) => (stats[s]||0) >= val);
+    const rewardKey = r => `${r.type}:${r.value}`;
+    const hasReward = r => state.rewards.some(x => rewardKey(x)===rewardKey(r));
+
+    function addLog(line){
+      state.log.unshift(line);
+      state.log = state.log.slice(0, 80);
+    }
+
+    // ----------------------------
+    // Core systems
+    // ----------------------------
+    function scenarioFor(location){
+      return pick(locationFlavors[location] || ['You continue on your way.']);
+    }
+
+    function assignQuest(location){
+      const pool = questPool[location] || [];
+      const candidates = pool.filter(q => meets(state.stats, q.requirements));
+      if(!candidates.length) return null;
+      return pick(candidates);
+    }
+
+    function applyReward(reward){
+      if(!hasReward(reward)) state.rewards.push(reward);
+
+      switch(reward.type){
+        case 'miracle':
+          addLog(`🌟 Miracle! ${reward.value}`);
+          return `🌟 Miracle! ${reward.value}`;
+        case 'title':
+          state.title = reward.value;
+          addLog(`🏅 You are now known as “${reward.value}”.`);
+          return `🏅 You are now known as “${reward.value}”.`;
+        case 'item':
+          if(!state.items.includes(reward.value)) state.items.push(reward.value);
+          addLog(`📦 You obtained: ${reward.value}`);
+          return `📦 You obtained: ${reward.value}`;
+        case 'vision':
+          addLog(`👁️ Vision: ${reward.value}`);
+          return `👁️ Vision: ${reward.value}`;
+        case 'favor':
+          addLog(`💠 Favor: ${reward.value}`);
+          return `💠 Favor: ${reward.value}`;
+        default:
+          return '';
+      }
+    }
+
+    function checkMilestones(){
+      const notes = [];
+      for(const stat of Object.keys(milestones)){
+        const cur = state.stats[stat] || 0;
+        const table = milestones[stat] || {};
+        if(table[cur]){
+          const key = `${stat}:${cur}`;
+          if(!state.achievedMilestones[key]){
+            state.achievedMilestones[key] = true;
+            notes.push(applyReward(table[cur]));
+          }
+        }
+      }
+      return notes;
+    }
+
+    function checkLocationBlessings(location){
+      const list = locationBlessings[location] || [];
+      const notes = [];
+      list.forEach(b => {
+        if(meets(state.stats, b.requirements)){
+          notes.push(`${applyReward(b.blessing)} (${b.scripture})`);
+        }
+      });
+      return notes;
+    }
+
+    function enterLocation(location, {announce=true}={}){
+      state.location = location;
+      const lines = [];
+
+      if(announce){
+        lines.push(`🧭 You arrive in ${location}.`);
+      }
+      lines.push(scenarioFor(location));
+
+      const blessings = checkLocationBlessings(location);
+      if(blessings.length) lines.push(...blessings);
+
+      // Assign a quest if eligible (immediate completion demo)
+      const q = assignQuest(location);
+      state.currentQuest = q;
+      if(q){
+        lines.push(`🗡️ Quest: ${q.description} (${q.scripture})`);
+        // In this single-file demo we auto-complete for momentum
+        const rewardMsg = applyReward(q.reward);
+        lines.push(`✅ Quest Completed: ${q.description}`);
+        if(rewardMsg) lines.push(rewardMsg);
+      }else{
+        lines.push('🗡️ No quests available yet. Grow in your stats to unlock more.');
+      }
+
+      addLog(lines.join(' '));
+      $('#scenario').innerHTML = lines.map(l => `<p>${l}</p>`).join('');
+      save();
+    }
+
+    function handleChoice(choiceId){
+      const choice = choicesData.find(c => c.id===choiceId);
+      if(!choice) return;
+
+      const stat = choice.stat;
+      state.stats[stat] = (state.stats[stat]||0) + 1;
+
+      const choiceLine = `✨ You chose: ${choice.label} (${choice.scripture})`;
+      addLog(choiceLine);
+
+      const milestoneNotes = checkMilestones();
+      const nextIndex = (LOCATIONS.indexOf(state.location)+1) % LOCATIONS.length;
+      const nextLoc = LOCATIONS[nextIndex];
+
+      const lines = [choiceLine];
+      if(milestoneNotes.length) lines.push(...milestoneNotes);
+
+      $('#scenario').innerHTML = lines.map(l => `<p>${l}</p>`).join('');
+
+      // Travel after a short beat to simulate turn flow
+      setTimeout(()=>{
+        enterLocation(nextLoc);
+        render();
+      }, 400);
+
+      render();
+      save();
+    }
+
+    // ----------------------------
+    // UI wiring
+    // ----------------------------
+    function render(){
+      // Location
+      $('#locName').textContent = state.location;
+      // Stats values
+      $('#faithVal').textContent = state.stats.faith;
+      $('#wisdomVal').textContent = state.stats.wisdom;
+      $('#serviceVal').textContent = state.stats.service;
+      // Bars (cap at 10 for display)
+      const cap = v => Math.max(0, Math.min(10, v));
+      $('#faithBar').style.width = (cap(state.stats.faith)*10)+'%';
+      $('#wisdomBar').style.width = (cap(state.stats.wisdom)*10)+'%';
+      $('#serviceBar').style.width = (cap(state.stats.service)*10)+'%';
+
+      // Title
+      $('#titleValue').textContent = state.title || 'No title yet';
+
+      // Rewards
+      const rewardsBox = $('#rewards');
+      rewardsBox.innerHTML = '';
+      if(!state.rewards.length){
+        rewardsBox.appendChild(el('div',{class:'muted'},['No rewards yet']));
+      }else{
+        state.rewards.forEach(r=>{
+          rewardsBox.appendChild(el('span',{class:'token'},[`${iconFor(r.type)} ${r.value}`]));
+        });
+      }
+
+      // Quest box
+      const qb = $('#questBox');
+      qb.innerHTML = '';
+      if(state.currentQuest){
+        qb.appendChild(el('div',{class:'stack'},[
+          el('div',{class:'row'},[el('span',{class:'pill'},[`📜 `, el('strong',{},['Description'])]), el('span',{},[state.currentQuest.description])]),
+          el('div',{class:'row'},[el('span',{class:'pill'},[`📖 `, el('strong',{},['Scripture'])]), el('span',{},[state.currentQuest.scripture])]),
+          el('div',{class:'row'},[el('span',{class:'pill'},[`🎯 `, el('strong',{},['Requirements'])]),
+            el('span',{},[reqText(state.currentQuest.requirements)])]),
+          el('div',{class:'row'},[el('span',{class:'pill'},[`🎁 `, el('strong',{},['Reward'])]),
+            el('span',{},[`${state.currentQuest.reward.type}: ${state.currentQuest.reward.value}`])])
+        ]));
+      }else{
+        qb.appendChild(el('div',{class:'muted'},['No active quest.']));
+      }
+
+      // Choices
+      const choices = $('#choices');
+      choices.innerHTML = '';
+      choicesData.forEach(c=>{
+        const btn = el('button',{class:'btn', id:c.id},[c.label]);
+        const sub = el('small',{},[c.scripture]);
+        const wrap = el('div',{class:'choice'},[btn, sub]);
+        btn.addEventListener('click', ()=>handleChoice(c.id));
+        choices.appendChild(wrap);
+      });
+
+      // Log
+      const log = $('#log');
+      log.innerHTML = state.log.map(line=>`<p>${line}</p>`).join('');
+    }
+
+    function iconFor(type){
+      switch(type){
+        case 'miracle': return '🌟';
+        case 'title': return '🏅';
+        case 'item': return '📦';
+        case 'vision': return '👁️';
+        case 'favor': return '💠';
+        default: return '🎁';
+      }
+    }
+    function reqText(reqs){
+      const parts = [];
+      if('faith' in reqs) parts.push(`Faith ${reqs.faith}+`);
+      if('wisdom' in reqs) parts.push(`Wisdom ${reqs.wisdom}+`);
+      if('service' in reqs) parts.push(`Service ${reqs.service}+`);
+      return parts.join(', ') || 'None';
+    }
+
+    function initUI(){
+      // Travel control
+      const sel = $('#travelSelect');
+      sel.innerHTML = '';
+      LOCATIONS.forEach(loc=>{
+        const o = el('option',{value:loc},[loc]);
+        sel.appendChild(o);
+      });
+      sel.value = state.location;
+      $('#travelBtn').addEventListener('click', ()=>{
+        const dest = sel.value;
+        if(dest && dest !== state.location){
+          enterLocation(dest);
+          render();
+          save();
+        }
+      });
+      // Reset
+      $('#resetBtn').addEventListener('click', reset);
+    }
+
+    // ----------------------------
+    // Boot
+    // ----------------------------
+    window.addEventListener('DOMContentLoaded', ()=>{
+      initUI();
+      // First-time arrival narrative
+      if(state.log.length===0){
+        enterLocation(state.location, {announce:true});
+      }else{
+        // Ensure scenario shows something on reload
+        $('#scenario').innerHTML = state.log.slice(0,3).reverse().map(l=>`<p>${l}</p>`).join('');
+      }
+      render();
+      save();
+    });
   </script>
 </body>
 </html>
