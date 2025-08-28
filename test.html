@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bible RPG Game</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    canvas {
+      display: block;
+      margin: 20px auto;
+      background: #e0e0e0;
+      border: 2px solid #333;
+    }
+    #menu, #settings, #tutorial {
+      display: none;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    #menu button, #settings button, #tutorial button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    #menu button:hover, #settings button:hover, #tutorial button:hover {
+      background-color: #45a049;
+    }
+    #game-output {
+      margin: 20px auto;
+      text-align: center;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="800" height="400"></canvas>
+  <div id="menu">
+    <h2>Main Menu</h2>
+    <button onclick="startTutorial()">Start Tutorial</button>
+    <button onclick="startGame()">Start Game</button>
+    <button onclick="openSettings()">Settings</button>
+  </div>
+  <div id="settings">
+    <h2>Settings</h2>
+    <p>Adjust game settings below:</p>
+    <label>Sound: <input type="checkbox" id="soundToggle" checked></label><br><br>
+    <button onclick="closeSettings()">Close Settings</button>
+  </div>
+  <div id="tutorial">
+    <h2>Tutorial</h2>
+    <p>Welcome to the Bible RPG Game! Use arrow keys to move your hero and interact with the environment.</p>
+    <button onclick="closeTutorial()">Close Tutorial</button>
+  </div>
+  <div id="game-output"></div>
+
+  <script>
+    // Canvas Setup
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Game Variables
+    let gameState = 'menu'; // 'menu', 'tutorial', 'game'
+    let hero = { x: 50, y: 200, width: 30, height: 30, color: 'blue', inventory: [] };
+    let enemy = { x: 700, y: 200, width: 30, height: 30, color: 'red', health: 100 };
+
+    // RPG Data (Refactored Perchance Logic)
+    const rpgData = {
+      heroNames: ["David", "Mary", "Paul", "Esther", "Moses", "Ruth", "Abigail", "Joshua", "Sarah", "Peter"],
+      locations: ["a desert oasis", "Mount Sinai", "Jerusalem", "the Jordan River", "a small village", "a bustling market", "the Red Sea", "a hidden cave"],
+      tasks: ["retrieve the lost scrolls", "heal the wounded", "deliver an important message", "protect villagers from raiders", "discover the hidden psalm", "defend the sacred temple", "rebuild the broken altar"],
+      enemies: ["Roman soldiers", "a roaring lion", "a destructive storm", "a deceptive false prophet", "a horde of locusts", "a deadly spiritual shadow", "a corrupt king"],
+      rewards: ["divine wisdom", "a blessed artifact", "a healed companion", "guidance from a prophet", "the Lord's favor", "rescue for your people", "a miraculous victory"],
+      generateScenario: function(customHero = null) {
+        const heroName = customHero || this.heroNames[Math.floor(Math.random() * this.heroNames.length)];
+        const location = this.locations[Math.floor(Math.random() * this.locations.length)];
+        const task = this.tasks[Math.floor(Math.random() * this.tasks.length)];
+        const enemy = this.enemies[Math.floor(Math.random() * this.enemies.length)];
+        const reward = this.rewards[Math.floor(Math.random() * this.rewards.length)];
+        return `You are ${heroName}, called by God to ${task} in ${location}. Along the way, you must confront ${enemy} to earn ${reward}.`;
+      }
+    };
+
+    // Menu Functions
+    function startTutorial() {
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('tutorial').style.display = 'block';
+      gameState = 'tutorial';
+    }
+
+    function closeTutorial() {
+      document.getElementById('tutorial').style.display = 'none';
+      startGame(); // Automatically start the game after tutorial
+    }
+
+    function openSettings() {
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('settings').style.display = 'block';
+    }
+
+    function closeSettings() {
+      document.getElementById('settings').style.display = 'none';
+      document.getElementById('menu').style.display = 'block';
+    }
+
+    function startGame() {
+      document.getElementById('menu').style.display = 'none';
+      gameState = 'game';
+      document.getElementById('game-output').innerText = rpgData.generateScenario();
+      gameLoop();
+    }
+
+    // Game Loop
+    function gameLoop() {
+      if (gameState !== 'game') return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw Hero
+      ctx.fillStyle = hero.color;
+      ctx.fillRect(hero.x, hero.y, hero.width, hero.height);
+
+      // Draw Enemy
+      ctx.fillStyle = enemy.color;
+      ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+
+      // Collision Detection
+      if (hero.x + hero.width > enemy.x &&
+          hero.x < enemy.x + enemy.width &&
+          hero.y + hero.height > enemy.y &&
+          hero.y < enemy.y + enemy.height) {
+        document.getElementById('game-output').innerText = 'You encountered an enemy! Fight to win!';
+        gameState = 'menu'; // Return to menu after encounter
+      }
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Keyboard Controls
+    document.addEventListener('keydown', (e) => {
+      if (gameState !== 'game') return;
+
+      if (e.key === 'ArrowUp') hero.y -= 10;
+      if (e.key === 'ArrowDown') hero.y += 10;
+      if (e.key === 'ArrowLeft') hero.x -= 10;
+      if (e.key === 'ArrowRight') hero.x += 10;
+    });
+
+    // Start in Menu
+    document.getElementById('menu').style.display = 'block';
+  </script>
+</body>
+</html>
