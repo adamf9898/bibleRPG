@@ -17,6 +17,7 @@ h1 {
     display: block;
     margin: 20px auto 0 auto;
     box-shadow: 0 0 16px #000a;
+    transition: filter 0.2s ease;
 }
 #hud {
     display: flex;
@@ -34,9 +35,16 @@ h1 {
     font-weight: bold;
     font-size: 1.1em;
     box-shadow: 0 1px 4px #0006;
+    transition: transform 0.15s ease;
 }
-#health-value { color: #e74c3c; }
-#xp-value { color: #f1c40f; }
+#health-value { 
+    color: #e74c3c; 
+    transition: color 1s ease;
+}
+#xp-value { 
+    color: #f1c40f; 
+    transition: color 1s ease;
+}
 #inventory {
     background: #222c;
     border-radius: 8px;
@@ -68,6 +76,7 @@ h1 {
     min-height: 40px;
     font-size: 1.1em;
     box-shadow: 0 2px 8px #0004;
+    transition: transform 0.15s ease;
 }
 #quest-log {
     background: #111e;
@@ -88,6 +97,7 @@ h1 {
     align-items: center;
     justify-content: center;
     z-index: 100;
+    transition: opacity 0.3s ease;
 }
 #scripture-modal.hidden {
     display: none;
@@ -102,6 +112,7 @@ h1 {
     font-size: 1.15em;
     box-shadow: 0 4px 32px #000a;
     margin-bottom: 18px;
+    animation: slideIn 0.3s ease;
 }
 #close-scripture {
     padding: 8px 24px;
@@ -112,10 +123,61 @@ h1 {
     font-size: 1em;
     cursor: pointer;
     margin-bottom: 10px;
+    transition: background 0.2s ease;
 }
 #close-scripture:hover {
     background: #3a5a2c;
 }
+
+/* Enhanced button styles */
+.scripture-btn {
+    background: linear-gradient(135deg, #4a7a3c, #5a8a4c);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+}
+
+.scripture-btn:hover {
+    background: linear-gradient(135deg, #5a8a4c, #6a9a5c);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+.scripture-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Pulse animation for health/xp values */
+.value-change {
+    animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
 @media (max-width: 900px) {
     #hud { flex-direction: column; width: 98vw; gap: 10px; }
     #dialogue, #quest, #quest-log { width: 95vw; }
