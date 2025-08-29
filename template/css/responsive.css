@@ -1,0 +1,610 @@
+/**
+ * Bible RPG Template - Responsive Styles
+ * Version: 1.0.0
+ * Description: Advanced responsive design with mobile-first approach
+ */
+
+/* =====================================================
+   RESPONSIVE BREAKPOINTS AND CONTAINER QUERIES
+   ===================================================== */
+
+/* Container Query Support */
+@container (min-width: 480px) {
+  .game-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-6);
+    align-items: start;
+  }
+}
+
+@container (min-width: 768px) {
+  .ui-section {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* =====================================================
+   MOBILE FIRST RESPONSIVE DESIGN
+   ===================================================== */
+
+/* Base mobile styles (320px+) */
+.responsive-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+.responsive-flex {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Mobile optimized navigation */
+@media (max-width: 767px) {
+  .main-navigation {
+    width: 100%;
+  }
+  
+  .main-navigation .nav-list {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--space-1);
+  }
+  
+  .nav-link,
+  .nav-button {
+    width: 100%;
+    text-align: center;
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+  }
+  
+  /* Mobile-friendly header */
+  .header-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-4);
+    padding: var(--space-3);
+  }
+  
+  .logo-section {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .accessibility-controls {
+    justify-content: center;
+    order: 3;
+  }
+  
+  /* Game canvas responsive sizing */
+  .game-canvas {
+    width: 100%;
+    max-width: 95vw;
+    height: auto;
+    aspect-ratio: 4/3;
+  }
+  
+  /* Mobile HUD adjustments */
+  .hud-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+  
+  .stat-bar {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  /* Mobile UI panels */
+  .ui-section {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  
+  .ui-panel {
+    min-height: 150px;
+  }
+  
+  /* Mobile quest log */
+  .quest-log {
+    margin: 0;
+    border-radius: var(--radius-lg);
+  }
+  
+  .quest-log-content {
+    max-height: 200px;
+  }
+  
+  /* Mobile buttons */
+  .btn {
+    min-height: 48px;
+    padding: var(--space-4) var(--space-6);
+  }
+  
+  .btn-sm {
+    min-height: 40px;
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  /* Mobile forms */
+  .form-input,
+  .form-select,
+  .form-textarea {
+    min-height: 48px;
+    padding: var(--space-4);
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Mobile modals */
+  .modal {
+    padding: var(--space-2);
+  }
+  
+  .modal-content {
+    width: 100%;
+    max-width: none;
+    max-height: 95vh;
+    margin: 0;
+  }
+  
+  .modal-body {
+    padding: var(--space-4);
+    max-height: calc(95vh - 140px);
+  }
+}
+
+/* Small mobile (320px-479px) */
+@media (max-width: 479px) {
+  :root {
+    --container-padding: var(--space-2);
+    --font-size-4xl: 1.75rem;
+    --font-size-3xl: 1.5rem;
+    --font-size-2xl: 1.25rem;
+    --space-8: 1.5rem;
+    --space-10: 2rem;
+  }
+  
+  .game-title {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .game-subtitle {
+    font-size: var(--font-size-xs);
+  }
+  
+  .logo-section {
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  
+  .game-canvas {
+    max-width: 300px;
+    border-width: 2px;
+  }
+  
+  .card-body,
+  .modal-body {
+    padding: var(--space-3);
+  }
+  
+  .btn {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* =====================================================
+   TABLET STYLES (768px - 1023px)
+   ===================================================== */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .responsive-flex {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  /* Tablet header */
+  .header-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .main-navigation .nav-list {
+    flex-direction: row;
+    gap: var(--space-4);
+  }
+  
+  /* Tablet game layout */
+  .game-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-6);
+    align-items: start;
+  }
+  
+  .game-canvas {
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  /* Tablet HUD */
+  .hud-container {
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 250px;
+  }
+  
+  .stat-bar {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: var(--space-2);
+  }
+  
+  .progress-bar {
+    order: 2;
+  }
+  
+  .stat-value {
+    order: 3;
+    text-align: center;
+  }
+  
+  /* Tablet UI panels */
+  .ui-section {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+  }
+  
+  /* Tablet quest log */
+  .quest-log {
+    max-width: 600px;
+  }
+}
+
+/* =====================================================
+   DESKTOP STYLES (1024px+)
+   ===================================================== */
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Desktop layout optimizations */
+  .main-content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: var(--space-8);
+    align-items: start;
+  }
+  
+  .content-primary {
+    grid-column: 1;
+  }
+  
+  .content-sidebar {
+    grid-column: 2;
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-4));
+  }
+  
+  /* Desktop game layout */
+  .game-section {
+    grid-column: 1 / -1;
+    margin-bottom: var(--space-8);
+  }
+  
+  .game-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--space-8);
+  }
+  
+  .game-canvas {
+    flex-shrink: 0;
+  }
+  
+  /* Desktop HUD positioning */
+  .hud-container {
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 280px;
+  }
+  
+  /* Desktop UI panels in sidebar */
+  .ui-section {
+    grid-column: 2;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  
+  .quest-log {
+    grid-column: 2;
+    margin: 0;
+    max-width: none;
+  }
+  
+  /* Desktop hover effects */
+  .card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* Desktop tooltips */
+  .tooltip-content {
+    font-size: var(--font-size-sm);
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
+/* =====================================================
+   LARGE DESKTOP STYLES (1280px+)
+   ===================================================== */
+
+@media (min-width: 1280px) {
+  .responsive-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  /* Large desktop layout */
+  .main-content {
+    grid-template-columns: 1fr 350px;
+    gap: var(--space-10);
+  }
+  
+  .game-canvas {
+    width: 800px;
+    height: 600px;
+  }
+  
+  .hud-container {
+    min-width: 320px;
+  }
+  
+  /* Larger quest log */
+  .quest-log-content {
+    max-height: 400px;
+  }
+}
+
+/* =====================================================
+   EXTRA LARGE DESKTOP STYLES (1440px+)
+   ===================================================== */
+
+@media (min-width: 1440px) {
+  :root {
+    --container-max-width: 1400px;
+  }
+  
+  .responsive-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  
+  /* Ultra-wide layout */
+  .main-content {
+    grid-template-columns: 1fr 400px;
+    gap: var(--space-12);
+  }
+  
+  .game-canvas {
+    width: 960px;
+    height: 720px;
+  }
+}
+
+/* =====================================================
+   ORIENTATION-BASED STYLES
+   ===================================================== */
+
+/* Landscape orientation optimizations */
+@media (orientation: landscape) and (max-height: 600px) {
+  .header-container {
+    padding: var(--space-2) var(--container-padding);
+  }
+  
+  .main-content {
+    padding: var(--space-4) var(--container-padding);
+  }
+  
+  .game-canvas {
+    max-height: 50vh;
+    width: auto;
+  }
+  
+  .hud-container {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .ui-section {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .modal-content {
+    max-height: 85vh;
+  }
+}
+
+/* Portrait orientation on tablets */
+@media (orientation: portrait) and (min-width: 768px) and (max-width: 1023px) {
+  .game-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .hud-container {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 600px;
+  }
+}
+
+/* =====================================================
+   ACCESSIBILITY RESPONSIVE FEATURES
+   ===================================================== */
+
+/* Larger text size option */
+@media (prefers-reduced-motion: no-preference) {
+  .large-text {
+    font-size: 1.2em;
+  }
+  
+  .large-text h1 { font-size: calc(var(--font-size-4xl) * 1.2); }
+  .large-text h2 { font-size: calc(var(--font-size-3xl) * 1.2); }
+  .large-text h3 { font-size: calc(var(--font-size-2xl) * 1.2); }
+  .large-text .btn { font-size: calc(var(--font-size-base) * 1.2); }
+}
+
+/* High contrast responsive adjustments */
+@media (prefers-contrast: high) {
+  .game-canvas {
+    border-width: 4px;
+  }
+  
+  .btn {
+    border-width: 2px;
+  }
+  
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    box-shadow: 0 0 0 4px var(--border-focus);
+  }
+}
+
+/* =====================================================
+   PRINT RESPONSIVE STYLES
+   ===================================================== */
+
+@media print {
+  .responsive-grid,
+  .responsive-flex {
+    display: block !important;
+  }
+  
+  .responsive-grid > *,
+  .responsive-flex > * {
+    margin-bottom: 1rem !important;
+    break-inside: avoid;
+  }
+  
+  .main-content {
+    display: block !important;
+    grid-template-columns: none !important;
+  }
+  
+  .game-canvas,
+  .minimap,
+  .loading-screen,
+  .modal,
+  .tooltip,
+  .accessibility-controls {
+    display: none !important;
+  }
+  
+  .ui-panel,
+  .quest-log {
+    border: 2px solid #000 !important;
+    margin-bottom: 1rem !important;
+    break-inside: avoid;
+  }
+}
+
+/* =====================================================
+   PERFORMANCE OPTIMIZATIONS
+   ===================================================== */
+
+/* Reduce animations on low-end devices */
+@media (max-width: 767px) and (max-resolution: 150dpi) {
+  .card:hover {
+    transform: none;
+  }
+  
+  .btn:hover {
+    transform: none;
+  }
+  
+  .modal-content {
+    animation: none;
+  }
+  
+  .notification {
+    animation: none;
+  }
+}
+
+/* Optimize for very small screens */
+@media (max-width: 360px) {
+  .container {
+    padding: 0 var(--space-2);
+  }
+  
+  .btn {
+    font-size: var(--font-size-sm);
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .modal {
+    padding: var(--space-1);
+  }
+  
+  .game-canvas {
+    max-width: 280px;
+    border-width: 1px;
+  }
+}
+
+/* =====================================================
+   CUSTOM RESPONSIVE UTILITIES
+   ===================================================== */
+
+/* Show/hide utilities */
+.show-mobile { display: block; }
+.show-tablet { display: none; }
+.show-desktop { display: none; }
+
+@media (min-width: 768px) {
+  .show-mobile { display: none; }
+  .show-tablet { display: block; }
+  .show-desktop { display: none; }
+  .hide-tablet { display: none; }
+}
+
+@media (min-width: 1024px) {
+  .show-mobile { display: none; }
+  .show-tablet { display: none; }
+  .show-desktop { display: block; }
+  .hide-desktop { display: none; }
+}
+
+/* Flex utilities */
+.flex-mobile-column {
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .flex-tablet-row {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 1024px) {
+  .flex-desktop-row {
+    flex-direction: row;
+  }
+}

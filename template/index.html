@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <!-- Essential Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO Meta Tags -->
+    <title>{{GAME_TITLE}} - Biblical RPG Adventure | Bible-based Open World Game</title>
+    <meta name="description" content="{{GAME_DESCRIPTION}} - Immerse yourself in an open world RPG weaving through stories and parables from the King James Bible. Experience dynamic combat with scripture-based abilities.">
+    <meta name="keywords" content="bible rpg, christian game, biblical adventure, scripture game, open world rpg, king james bible, spiritual gaming">
+    <meta name="author" content="Bible RPG Development Team">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{CANONICAL_URL}}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{CANONICAL_URL}}">
+    <meta property="og:title" content="{{GAME_TITLE}} - Biblical RPG Adventure">
+    <meta property="og:description" content="{{GAME_DESCRIPTION}}">
+    <meta property="og:image" content="{{OG_IMAGE_URL}}">
+    <meta property="og:site_name" content="Bible RPG">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{CANONICAL_URL}}">
+    <meta name="twitter:title" content="{{GAME_TITLE}} - Biblical RPG Adventure">
+    <meta name="twitter:description" content="{{GAME_DESCRIPTION}}">
+    <meta name="twitter:image" content="{{TWITTER_IMAGE_URL}}">
+    
+    <!-- Favicons and App Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png?v={{VERSION}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16x16.png?v={{VERSION}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png?v={{VERSION}}">
+    <link rel="manifest" href="./manifest.json?v={{VERSION}}">
+    <meta name="theme-color" content="#2d3a4a">
+    <meta name="msapplication-TileColor" content="#2d3a4a">
+    
+    <!-- Performance and Preloading -->
+    <link rel="preload" href="./css/critical.css?v={{VERSION}}" as="style">
+    <link rel="preload" href="./js/core.min.js?v={{VERSION}}" as="script">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Critical CSS (inlined for performance) -->
+    <style>
+        /* Critical Above-the-Fold CSS */
+        :root {
+            --primary-bg: #0f1222;
+            --secondary-bg: #2d3a4a;
+            --accent-primary: #4a7a3c;
+            --accent-secondary: #7aa2ff;
+            --text-primary: #e9ebff;
+            --text-secondary: #9aa3cf;
+            --text-muted: #6b7280;
+            --border-color: #2b336b;
+            --success-color: #70f0c4;
+            --warning-color: #ffd166;
+            --error-color: #ff6b6b;
+            --font-family: system-ui, 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        html {
+            height: 100%;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+        
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
+        
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--accent-primary);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+            transition: var(--transition-smooth);
+        }
+        
+        .skip-link:focus {
+            top: 6px;
+        }
+    </style>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./css/main.css?v={{VERSION}}">
+    <link rel="stylesheet" href="./css/components.css?v={{VERSION}}">
+    <link rel="stylesheet" href="./css/responsive.css?v={{VERSION}}">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "{{GAME_TITLE}}",
+        "description": "{{GAME_DESCRIPTION}}",
+        "genre": ["Role-playing game", "Adventure game", "Christian game"],
+        "gamePlatform": ["Web Browser", "Desktop", "Mobile"],
+        "operatingSystem": ["Windows", "macOS", "Linux", "iOS", "Android"],
+        "applicationCategory": "Game",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Bible RPG Team"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "Bible RPG Development Team"
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen" aria-hidden="true">
+        <div class="loading-container">
+            <div class="loading-spinner" role="status" aria-label="Loading game">
+                <span class="visually-hidden">Loading Bible RPG...</span>
+            </div>
+            <p class="loading-text">Preparing your spiritual journey...</p>
+            <div class="loading-progress">
+                <div class="loading-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Application -->
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="main-header" role="banner">
+            <div class="header-container">
+                <div class="logo-section">
+                    <div class="logo-icon" aria-hidden="true">✝️</div>
+                    <div class="logo-text">
+                        <h1 class="game-title">{{GAME_TITLE}}</h1>
+                        <p class="game-subtitle">Hear What The Spirit Says To The Soul!</p>
+                    </div>
+                </div>
+                
+                <nav class="main-navigation" role="navigation" aria-label="Main navigation">
+                    <ul class="nav-list">
+                        <li><a href="#game" class="nav-link" aria-current="page">Play</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#help" class="nav-link">Help</a></li>
+                        <li><button class="nav-button" id="settings-btn" aria-haspopup="dialog">Settings</button></li>
+                    </ul>
+                </nav>
+                
+                <!-- Accessibility Controls -->
+                <div class="accessibility-controls">
+                    <button class="btn btn-icon" id="theme-toggle" aria-label="Toggle high contrast mode" title="Toggle high contrast">
+                        <span class="icon-contrast" aria-hidden="true"></span>
+                    </button>
+                    <button class="btn btn-icon" id="text-size-toggle" aria-label="Increase text size" title="Increase text size">
+                        <span class="icon-text-size" aria-hidden="true">A+</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main id="main-content" class="main-content" role="main">
+            <!-- Game Canvas Section -->
+            <section class="game-section" aria-labelledby="game-heading">
+                <h2 id="game-heading" class="visually-hidden">Game Display</h2>
+                
+                <div class="game-container">
+                    <canvas 
+                        id="gameCanvas" 
+                        class="game-canvas"
+                        width="640" 
+                        height="480"
+                        role="img"
+                        aria-label="Game world display"
+                        tabindex="0">
+                        <p>Your browser does not support the HTML5 Canvas element. Please update your browser to play this game.</p>
+                    </canvas>
+                    
+                    <!-- Game Controls -->
+                    <div class="game-controls" role="group" aria-labelledby="controls-heading">
+                        <h3 id="controls-heading" class="visually-hidden">Game Controls</h3>
+                        <button class="btn btn-primary" id="play-btn" aria-describedby="play-description">
+                            <span class="btn-text">Start Adventure</span>
+                        </button>
+                        <p id="play-description" class="control-description">Begin your spiritual journey through biblical lands</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- UI Panels -->
+            <section class="ui-section" aria-labelledby="ui-heading">
+                <h2 id="ui-heading" class="visually-hidden">Game Interface</h2>
+                
+                <!-- Dialogue Panel -->
+                <div class="ui-panel dialogue-panel" role="dialog" aria-labelledby="dialogue-title" aria-live="polite">
+                    <h3 id="dialogue-title" class="panel-title">Dialogue</h3>
+                    <div class="dialogue-content" id="dialogue-content" aria-atomic="true">
+                        <p class="placeholder-text">Conversations and story elements will appear here</p>
+                    </div>
+                </div>
+                
+                <!-- Quest Panel -->
+                <div class="ui-panel quest-panel" role="region" aria-labelledby="quest-title">
+                    <h3 id="quest-title" class="panel-title">Current Quest</h3>
+                    <div class="quest-content" id="quest-content">
+                        <p class="placeholder-text">Quest objectives and progress will be displayed here</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- HUD (Heads-Up Display) -->
+            <section class="hud-section" role="region" aria-labelledby="hud-heading">
+                <h2 id="hud-heading" class="visually-hidden">Player Status</h2>
+                
+                <div class="hud-container">
+                    <!-- Health Bar -->
+                    <div class="stat-bar health-bar" role="group" aria-labelledby="health-label">
+                        <span id="health-label" class="stat-label">Health:</span>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-fill health-fill" style="width: 100%"></div>
+                        </div>
+                        <span class="stat-value" id="health-value" aria-live="polite">100</span>
+                    </div>
+                    
+                    <!-- Experience Bar -->
+                    <div class="stat-bar xp-bar" role="group" aria-labelledby="xp-label">
+                        <span id="xp-label" class="stat-label">Experience:</span>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-fill xp-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="stat-value" id="xp-value" aria-live="polite">0</span>
+                    </div>
+                    
+                    <!-- Inventory -->
+                    <div class="inventory-container" role="region" aria-labelledby="inventory-heading">
+                        <h3 id="inventory-heading" class="visually-hidden">Inventory</h3>
+                        <button class="btn btn-secondary" id="inventory-btn" aria-haspopup="dialog">
+                            <span class="btn-icon">🎒</span>
+                            <span class="btn-text">Inventory</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Minimap -->
+                    <div class="minimap-container" role="region" aria-labelledby="minimap-heading">
+                        <h3 id="minimap-heading" class="visually-hidden">Map</h3>
+                        <canvas 
+                            id="minimap" 
+                            class="minimap"
+                            width="100" 
+                            height="75"
+                            role="img"
+                            aria-label="Minimap showing nearby area">
+                        </canvas>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Quest Log -->
+            <aside class="quest-log" role="complementary" aria-labelledby="quest-log-heading">
+                <h2 id="quest-log-heading" class="quest-log-title">Quest Log</h2>
+                <div class="quest-log-content" id="quest-log-content">
+                    <p class="placeholder-text">Your quest history and completed missions will appear here</p>
+                </div>
+            </aside>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="main-footer" role="contentinfo">
+            <div class="footer-container">
+                <p class="copyright">&copy; {{CURRENT_YEAR}} Bible RPG. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#privacy" class="footer-link">Privacy Policy</a>
+                    <a href="#terms" class="footer-link">Terms of Service</a>
+                    <a href="#contact" class="footer-link">Contact</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Modals -->
+    <!-- Scripture Modal -->
+    <div id="scripture-modal" class="modal" role="dialog" aria-labelledby="scripture-title" aria-hidden="true">
+        <div class="modal-overlay" aria-hidden="true"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="scripture-title" class="modal-title">Scripture Verse</h2>
+                <button class="btn btn-icon modal-close" id="close-scripture" aria-label="Close scripture">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="scripture-content" class="scripture-content"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal" role="dialog" aria-labelledby="settings-title" aria-hidden="true">
+        <div class="modal-overlay" aria-hidden="true"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="settings-title" class="modal-title">Game Settings</h2>
+                <button class="btn btn-icon modal-close" aria-label="Close settings">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="settings-form">
+                    <fieldset>
+                        <legend>Audio Settings</legend>
+                        <label for="master-volume">Master Volume</label>
+                        <input type="range" id="master-volume" min="0" max="100" value="100" aria-describedby="volume-description">
+                        <p id="volume-description" class="input-description">Adjust overall game volume</p>
+                    </fieldset>
+                    
+                    <fieldset>
+                        <legend>Accessibility</legend>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="reduced-motion">
+                            <span class="checkbox-text">Reduce motion effects</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="high-contrast">
+                            <span class="checkbox-text">High contrast mode</span>
+                        </label>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game Scripts -->
+    <script src="./js/utils.min.js?v={{VERSION}}" defer></script>
+    <script src="./js/game-engine.min.js?v={{VERSION}}" defer></script>
+    <script src="./js/ui-components.min.js?v={{VERSION}}" defer></script>
+    <script src="./js/accessibility.min.js?v={{VERSION}}" defer></script>
+    <script src="./js/main.min.js?v={{VERSION}}" defer></script>
+    
+    <!-- Service Worker for PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js?v={{VERSION}}')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
+    </script>
+    
+    <!-- Performance Monitoring -->
+    <script>
+        // Critical Web Vitals monitoring
+        if ('web-vital' in window) {
+            webVitals.getCLS(console.log);
+            webVitals.getFID(console.log);
+            webVitals.getLCP(console.log);
+        }
+    </script>
+</body>
+</html>
