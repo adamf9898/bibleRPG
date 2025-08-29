@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Gospel RPG — Faith • Wisdom • Service</title>
+  <title>bibleRPG</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
@@ -79,8 +79,8 @@
   <header>
     <div style="font-size:18px">✝️</div>
     <div>
-      <h1>Gospel RPG</h1>
-      <div class="subtitle">Faith • Wisdom • Service — quests, blessings, and milestone miracles</div>
+      <h1>bibleRPG</h1>
+      <div class="subtitle">Hear What The Spirit Says To The Soul!</div>
     </div>
   </header>
 
@@ -112,7 +112,7 @@
           </div>
           <div class="divider"></div>
           <div class="row">
-            <div class="title-ribbon">🏅 <span id="titleValue">No title yet</span></div>
+            <div class="title-ribbon">🏅 <span id="titleValue">Service Title</span></div>
           </div>
         </div>
 
@@ -129,36 +129,36 @@
         <div class="stack">
           <div class="row"><span class="pill">📊 <strong>Stats</strong></span></div>
           <div class="kv">
-            <div>Faith</div><div id="faithVal">0</div>
-            <div>Wisdom</div><div id="wisdomVal">0</div>
-            <div>Service</div><div id="serviceVal">0</div>
+            <div>Faith:</div><div id="faithVal">0</div>
+            <div>Wisdom:</div><div id="wisdomVal">0</div>
+            <div>Service:</div><div id="serviceVal">0</div>
           </div>
         </div>
 
         <div class="divider"></div>
 
         <div class="stack">
-          <div class="row"><span class="pill">🎁 <strong>Rewards</strong></span></div>
+          <div class="row"><span class="pill">🎁 <strong>Rewards:</strong></span></div>
           <div id="rewards" class="row"></div>
         </div>
 
         <div class="divider"></div>
 
         <div class="stack">
-          <div class="row"><span class="pill">🗡️ <strong>Current quest</strong></span></div>
+          <div class="row"><span class="pill">🗡️ <strong>Quest:</strong></span></div>
           <div id="questBox" class="stack"></div>
         </div>
       </div>
     </aside>
   </main>
 
-  <div class="footer">Built as a single-page, offline-ready demo. Progress auto-saves to your browser.</div>
+  <div class="footer">2025 @ bibleRPG</div>
 
   <script>
     // ----------------------------
     // Data tables
     // ----------------------------
-    const LOCATIONS = ['Galilee','Jerusalem'];
+    const LOCATIONS = ['Galilee','Jerusalem', 'Bethlehem', 'Damascus', 'Wilderness', 'Israel', 'Sea of Galilee', 'Babylon'];
 
     const locationFlavors = {
       Galilee: [
@@ -237,12 +237,12 @@
 
     const defaultState = () => ({
       stats:{ faith:0, wisdom:0, service:0 },
-      location:'Galilee',
+      location:[],
       rewards:[],   // array of {type,value}
       items:[],     // derived from rewards
-      title:null,
+      title:[],
       achievedMilestones:{}, // e.g., "faith:5":true
-      currentQuest:null,
+      currentQuest:[],
       log:[]
     });
 
