@@ -24,108 +24,106 @@
   <meta name="twitter:title" content="bibleRPG - Biblical Adventure Role Playing Game" />
   <meta name="twitter:description" content="Experience biblical adventures in this immersive RPG." />
   <meta name="twitter:image" content="https://biblerpg.com/screenshot.png" />
-  
-  <!-- Preload Critical Resources -->
-  <link rel="preload" href="#styles" as="style" />
-  <link rel="preload" href="#game-script" as="script" />
-  <style id="styles">
-    /* ==============================================
-       CSS Custom Properties (CSS Variables)
-       Define the color scheme and theming
-       ============================================== */
-    :root {
-      /* Background Colors */
-      --bg: #0f1222;
-      --panel: #151936;
-      --panel-2: #1c2150;
-      
-      /* Accent Colors */
-      --accent: #7aa2ff;
-      --accent-2: #70f0c4;
-      
-      /* Text Colors */
-      --text: #e9ebff;
-      --muted: #9aa3cf;
-      
-      /* Status Colors */
-      --good: #70f0c4;
-      --warn: #ffd166;
-      --bad: #ff6b6b;
-      
-      /* Interactive Elements */
-      --btn: #222a63;
-      --btn-hover: #2a3482;
-      --chip: #232a5a;
+  <style>
+    :root{
+      --bg:#0f1222; --panel:#151936; --panel-2:#1c2150; --accent:#7aa2ff; --accent-2:#70f0c4;
+      --text:#e9ebff; --muted:#9aa3cf; --good:#70f0c4; --warn:#ffd166; --bad:#ff6b6b;
+      --btn:#222a63; --btn-hover:#2a3482; --chip:#232a5a;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:24px/1.4 system-ui,'AR CENA',Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--text); background:linear-gradient(180deg,#0f1222 0%,#0f1428 70%,#0f1222 100%);
+    }
+    header{
+      padding:16px 20px; border-bottom:1px solid #2b336b; background:rgba(12,14,30,.7); backdrop-filter: blur(6px);
+      display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:2;
+    }
+    header h1{margin:0; font-size:30px; font-weight:700; letter-spacing:.3px}
+    header .subtitle{color:var(--muted); font-size:26px}
+    main{
+      display:grid; grid-template-columns: 2.2fr 1.2fr; gap:16px; padding:16px; max-width:1200px; margin:0 auto;
+    }
+    @media (max-width: 920px){ main{grid-template-columns: 1fr} }
+    .card{
+      background:linear-gradient(180deg,var(--panel) 0%, var(--panel-2) 100%); border:1px solid #262e66; border-radius:12px; overflow:hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,.35);
+    }
+    .card h2{
+      margin:0; padding:12px 14px; font-size:14px; color:var(--muted); letter-spacing:.4px; text-transform:uppercase; border-bottom:1px solid #27306a;
+      background:linear-gradient(180deg,#1a1f48 0%,#151936 100%); position:sticky; top:48px; z-index:1;
+    }
+    .section{padding:14px}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .stack{display:flex; flex-direction:column; gap:10px}
+    .muted{color:var(--muted)}
+    .pill{
+      display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; background:var(--chip); border:1px solid #2a3470; color:var(--text); font-size:13px;
+    }
+    .bar{
+      height:8px; background:#1b1f45; border-radius:999px; overflow:hidden; border:1px solid #2a3270;
+    }
+    .bar > i{
+      display:block; height:100%; background:linear-gradient(90deg,var(--accent) 0%, var(--accent-2) 100%); width:0%;
+      transition:width .35s ease;
+    }
+    .btn{
+      appearance:none; border:none; cursor:pointer; border-radius:10px; padding:10px 12px; background:var(--btn); color:var(--text);
+      border:1px solid #2a3470; font-weight:600; letter-spacing:.2px; transition: all .15s ease;
+    }
+    .btn:hover{background:var(--btn-hover); transform:translateY(-1px)}
+    .btn:active{transform:translateY(0)}
+    .btn-row{display:flex; gap:10px; flex-wrap:wrap}
+    .choice{display:flex; flex-direction:column; gap:6px; min-width:260px}
+    .choice small{color:var(--muted)}
+    select, .input{
+      background:#161b3f; color:var(--text); border:1px solid #2a3470; border-radius:8px; padding:8px 10px; font-weight:600;
+    }
+    .log{
+      height:220px; overflow:auto; background:rgba(9,11,24,.55); border:1px solid #262f68; border-radius:10px; padding:10px;
+    }
+    .log p{margin:0 0 8px}
+    .token{display:inline-block; margin:4px 6px 0 0; padding:6px 8px; border-radius:8px; border:1px solid #27306a; background:#171b3d; font-size:13px}
+    .kv{display:grid; grid-template-columns: 120px 1fr; gap:6px 10px; align-items:center}
+    .divider{height:1px; background:#27306a; margin:10px 0}
+    .footer{padding:10px 16px; color:var(--muted); font-size:12px; text-align:center}
+    .title-ribbon{
+      display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:8px; border:1px solid #2a3470; background:linear-gradient(180deg,#1c2456,#14193d);
+      box-shadow: inset 0 0 12px rgba(112,240,196,.12);
+    }
+    .good{color:var(--good)} .warn{color:var(--warn)} .bad{color:var(--bad)}
+    .sr{position:absolute; left:-9999px}
+    
+    /* Screen Reader Only Content */
+    .sr-only {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
     }
     
-    /* ==============================================
-       Global Reset and Base Styles
-       ============================================== */
-    * {
-      box-sizing: border-box;
+    /* Enhanced Button Interactions */
+    .btn:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
     
-    html, body {
-      height: 100%;
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
     
-    body {
-      margin: 0;
-      font: 24px/1.4 system-ui, 'AR CENA', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, #0f1222 0%, #0f1428 70%, #0f1222 100%);
+    /* Enhanced Card Hover Effects */
+    .card:hover {
+      transform: translateY(-2px);
+      transition: transform 0.2s ease;
     }
     
-    /* ==============================================
-       Header Styles
-       ============================================== */
-    header {
-      padding: 16px 20px;
-      border-bottom: 1px solid #2b336b;
-      background: rgba(12, 14, 30, 0.7);
-      backdrop-filter: blur(6px);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 2;
-    }
-    
-    header h1 {
-      margin: 0;
-      font-size: 30px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-    }
-    
-    header .subtitle {
-      color: var(--muted);
-      font-size: 26px;
-    }
-    
-    /* ==============================================
-       Main Layout Styles - CSS Grid Implementation
-       ============================================== */
-    main {
-      display: grid;
-      grid-template-columns: 2.2fr 1.2fr;
-      gap: 16px;
-      padding: 16px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    /* Responsive Layout for Smaller Screens */
-    @media (max-width: 920px) {
-      main {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    /* Enhanced Mobile Layout */
+    /* Enhanced Mobile Support */
     @media (max-width: 768px) {
       main {
+        grid-template-columns: 1fr;
         padding: 12px;
         gap: 12px;
       }
@@ -143,7 +141,6 @@
       }
     }
     
-    /* Small Mobile Optimization */
     @media (max-width: 480px) {
       body {
         font-size: 20px;
@@ -153,285 +150,18 @@
         padding: 8px;
         gap: 8px;
       }
+      
+      .choice {
+        min-width: 200px;
+      }
     }
     
-    /* ==============================================
-       Card Component Styles
-       ============================================== */
-    .card {
-      background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
-      border: 1px solid #262e66;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-    }
-    
-    .card h2 {
-      margin: 0;
-      padding: 12px 14px;
-      font-size: 14px;
-      color: var(--muted);
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-      border-bottom: 1px solid #27306a;
-      background: linear-gradient(180deg, #1a1f48 0%, #151936 100%);
-      position: sticky;
-      top: 48px;
-      z-index: 1;
-    }
-    
-    /* ==============================================
-       Layout Utility Classes - Flexbox Implementation
-       ============================================== */
-    .section {
-      padding: 14px;
-    }
-    
-    .row {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    
-    .stack {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    
-    /* Text Utility Classes */
-    .muted {
-      color: var(--muted);
-    }
-    
-    .good {
-      color: var(--good);
-    }
-    
-    .warn {
-      color: var(--warn);
-    }
-    
-    .bad {
-      color: var(--bad);
-    }
-    
-    /* Screen Reader Only Content */
-    .sr-only {
-      position: absolute;
-      left: -9999px;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-    }
-    
-    /* ==============================================
-       Interactive Component Styles
-       ============================================== */
-    .pill {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: var(--chip);
-      border: 1px solid #2a3470;
-      color: var(--text);
-      font-size: 13px;
-    }
-    
-    .bar {
-      height: 8px;
-      background: #1b1f45;
-      border-radius: 999px;
-      overflow: hidden;
-      border: 1px solid #2a3270;
-      position: relative;
-    }
-    
+    /* Enhanced Progress Bar Animation */
     .bar > i {
-      display: block;
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
-      width: 0%;
-      transition: width 0.35s ease;
+      transition: width 0.5s ease;
     }
     
-    /* Button Styles with Enhanced Interactions */
-    .btn {
-      appearance: none;
-      border: none;
-      cursor: pointer;
-      border-radius: 10px;
-      padding: 10px 12px;
-      background: var(--btn);
-      color: var(--text);
-      border: 1px solid #2a3470;
-      font-weight: 600;
-      letter-spacing: 0.2px;
-      transition: all 0.15s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .btn:hover {
-      background: var(--btn-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-    
-    .btn:active {
-      transform: translateY(0);
-    }
-    
-    .btn:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-    
-    /* Button Loading State */
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-    
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    
-    .choice {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      min-width: 260px;
-      transition: transform 0.2s ease;
-    }
-    
-    .choice:hover {
-      transform: translateY(-1px);
-    }
-    
-    .choice small {
-      color: var(--muted);
-    }
-    
-    /* Form Controls */
-    select, .input {
-      background: #161b3f;
-      color: var(--text);
-      border: 1px solid #2a3470;
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-weight: 600;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    select:focus, .input:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(122, 162, 255, 0.2);
-    }
-    
-    /* Log and Content Areas */
-    .log {
-      height: 220px;
-      overflow: auto;
-      background: rgba(9, 11, 24, 0.55);
-      border: 1px solid #262f68;
-      border-radius: 10px;
-      padding: 10px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--accent) transparent;
-    }
-    
-    .log::-webkit-scrollbar {
-      width: 6px;
-    }
-    
-    .log::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    
-    .log::-webkit-scrollbar-thumb {
-      background: var(--accent);
-      border-radius: 3px;
-    }
-    
-    .log p {
-      margin: 0 0 8px;
-      animation: fadeIn 0.3s ease;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    /* Token and Utility Styles */
-    .token {
-      display: inline-block;
-      margin: 4px 6px 0 0;
-      padding: 6px 8px;
-      border-radius: 8px;
-      border: 1px solid #27306a;
-      background: #171b3d;
-      font-size: 13px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .token:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
-    
-    .kv {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 6px 10px;
-      align-items: center;
-    }
-    
-    .divider {
-      height: 1px;
-      background: #27306a;
-      margin: 10px 0;
-    }
-    
-    .footer {
-      padding: 10px 16px;
-      color: var(--muted);
-      font-size: 12px;
-      text-align: center;
-    }
-    
-    .title-ribbon {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      border: 1px solid #2a3470;
-      background: linear-gradient(180deg, #1c2456, #14193d);
-      box-shadow: inset 0 0 12px rgba(112, 240, 196, 0.12);
-      animation: glow 2s ease-in-out infinite alternate;
-    }
-    
-    @keyframes glow {
-      from { box-shadow: inset 0 0 12px rgba(112, 240, 196, 0.12); }
-      to { box-shadow: inset 0 0 12px rgba(112, 240, 196, 0.24); }
-    }
-    
-    /* Loading State Animations */
+    /* Loading Animation */
     .loading {
       position: relative;
       overflow: hidden;
@@ -630,20 +360,12 @@
     <span class="sr-only"> - Biblical Role Playing Game</span>
   </footer>
 
-  <script id="game-script">
-    'use strict';
-    
-    /* ==============================================
-       Game Data Configuration
-       ============================================== */
-    
-    // Available locations in the biblical world
-    const LOCATIONS = [
-      'Galilee', 'Jerusalem', 'Bethlehem', 'Damascus', 
-      'Wilderness', 'Israel', 'Sea of Galilee', 'Babylon'
-    ];
+  <script>
+    // ----------------------------
+    // Data tables
+    // ----------------------------
+    const LOCATIONS = ['Galilee','Jerusalem', 'Bethlehem', 'Damascus', 'Wilderness', 'Israel', 'Sea of Galilee', 'Babylon'];
 
-    // Descriptive flavor text for each location
     const locationFlavors = {
       Galilee: [
         'You arrive by the Sea of Galilee as dawn gilds the water.',
@@ -654,122 +376,56 @@
         'Stone steps climb toward the Temple courts, alive with voices.',
         'Shadows of pillars stretch long across the courtyard.',
         'Whispers of prophecy linger in the narrow streets.'
-      ],
-      Bethlehem: [
-        'The city of David welcomes you with ancient songs.',
-        'Shepherds\' fields stretch beneath starlit skies.',
-        'Peace descends like gentle rainfall.'
-      ],
-      Damascus: [
-        'Ancient trade routes converge in this bustling city.',
-        'The scent of spices fills the marketplace air.',
-        'Voices of many nations echo through the streets.'
-      ],
-      Wilderness: [
-        'Silence stretches across the barren landscape.',
-        'Rocky paths wind between sparse vegetation.',
-        'Solitude invites deep contemplation.'
       ]
     };
 
-    // Quest configurations for different locations
     const questPool = {
       Galilee: [
         {
-          id: 'fishers_of_men',
-          description: 'Share the Good News with the villagers by the shore.',
-          requirements: { faith: 2 },
-          reward: { type: 'title', value: 'Fisher of Men' },
-          scripture: 'Matthew 4:19'
+          id:'fishers_of_men',
+          description:'Share the Good News with the villagers by the shore.',
+          requirements:{faith:2},
+          reward:{type:'title', value:'Fisher of Men'},
+          scripture:'Matthew 4:19'
         },
         {
-          id: 'calm_the_storm',
-          description: 'Pray for calm as the winds rise over the sea.',
-          requirements: { faith: 4, wisdom: 2 },
-          reward: { type: 'miracle', value: 'Calmed Storm' },
-          scripture: 'Mark 4:39'
-        },
-        {
-          id: 'feeding_multitude',
-          description: 'Help distribute food to the hungry crowd.',
-          requirements: { service: 3 },
-          reward: { type: 'miracle', value: 'Multiplication of Loaves' },
-          scripture: 'Matthew 14:19-20'
+          id:'calm_the_storm',
+          description:'Pray for calm as the winds rise over the sea.',
+          requirements:{faith:4, wisdom:2},
+          reward:{type:'miracle', value:'Calmed Storm'},
+          scripture:'Mark 4:39'
         }
       ],
       Jerusalem: [
         {
-          id: 'teach_in_temple',
-          description: 'Engage in debate with the teachers in the temple courts.',
-          requirements: { wisdom: 3 },
-          reward: { type: 'item', value: 'Scroll of Insight' },
-          scripture: 'Luke 2:46-47'
-        },
-        {
-          id: 'cleanse_temple',
-          description: 'Help restore the sanctity of the temple.',
-          requirements: { faith: 3, service: 2 },
-          reward: { type: 'favor', value: 'Temple Authority' },
-          scripture: 'Matthew 21:12-13'
-        }
-      ],
-      Bethlehem: [
-        {
-          id: 'shepherd_watch',
-          description: 'Keep vigil with the shepherds in the fields.',
-          requirements: { faith: 1 },
-          reward: { type: 'vision', value: 'Heavenly Host' },
-          scripture: 'Luke 2:8-14'
-        }
-      ],
-      Damascus: [
-        {
-          id: 'road_revelation',
-          description: 'Encounter divine revelation on the road.',
-          requirements: { faith: 5 },
-          reward: { type: 'miracle', value: 'Blinded by Light' },
-          scripture: 'Acts 9:3-6'
+          id:'teach_in_temple',
+          description:'Engage in debate with the teachers in the temple courts.',
+          requirements:{wisdom:3},
+          reward:{type:'item', value:'Scroll of Insight'},
+          scripture:'Luke 2:46-47'
         }
       ]
     };
 
-    // Milestone rewards for reaching stat thresholds
     const milestones = {
-      faith: { 
-        5: { type: 'miracle', value: 'Parted Waters' },
-        10: { type: 'miracle', value: 'Resurrection Power' }
-      },
-      wisdom: { 
-        5: { type: 'miracle', value: 'Prophetic Vision' },
-        10: { type: 'miracle', value: 'Divine Wisdom' }
-      },
-      service: { 
-        5: { type: 'miracle', value: 'Feeding the Multitude' },
-        10: { type: 'miracle', value: 'Healing Touch' }
-      }
+      faith: { 5: { type:'miracle', value:'Parted Waters' } },
+      wisdom:{ 5: { type:'miracle', value:'Prophetic Vision' } },
+      service:{ 5: { type:'miracle', value:'Feeding the Multitude' } }
     };
 
-    // Location-based special blessings
     const locationBlessings = {
       Galilee: [
         {
-          requirements: { faith: 3 },
-          blessing: { type: 'vision', value: 'A net overflowing with fish — a promise of abundance.' },
-          scripture: 'Luke 5:6'
+          requirements:{faith:3},
+          blessing:{type:'vision', value:'A net overflowing with fish — a promise of abundance.'},
+          scripture:'Luke 5:6'
         }
       ],
       Jerusalem: [
         {
-          requirements: { wisdom: 4, service: 2 },
-          blessing: { type: 'favor', value: 'The elders grant you access to the inner courts.' },
-          scripture: 'Acts 6:10'
-        }
-      ],
-      Bethlehem: [
-        {
-          requirements: { faith: 2 },
-          blessing: { type: 'vision', value: 'Angels sing Gloria in Excelsis Deo.' },
-          scripture: 'Luke 2:14'
+          requirements:{wisdom:4, service:2},
+          blessing:{type:'favor', value:'The elders grant you access to the inner courts.'},
+          scripture:'Acts 6:10'
         }
       ]
     };
@@ -778,307 +434,74 @@
       { id:'faith_choice', label:'🙏 Wait upon the Lord’s guidance', stat:'faith', scripture:'Isaiah 40:31' },
       { id:'wisdom_choice', label:'📖 Seek counsel from the elders', stat:'wisdom', scripture:'Proverbs 11:14' },
       { id:'service_choice', label:'🤝 Help the wounded traveler', stat:'service', scripture:'Luke 10:33–34' }
-    
-    /* ==============================================
-       Tutorial System Configuration
-       ============================================== */
-    const tutorialSteps = [
-      {
-        id: 'welcome',
-        title: 'Welcome to bibleRPG!',
-        content: 'Embark on a spiritual journey through biblical lands. Your goal is to grow in Faith, Wisdom, and Service.',
-        target: null,
-        action: 'next'
-      },
-      {
-        id: 'stats',
-        title: 'Character Stats',
-        content: 'Monitor your Faith, Wisdom, and Service levels. These determine which quests you can undertake.',
-        target: '#faithVal',
-        action: 'next'
-      },
-      {
-        id: 'choices',
-        title: 'Making Choices',
-        content: 'Select actions based on biblical principles. Each choice affects your spiritual growth.',
-        target: '#choices',
-        action: 'next'
-      },
-      {
-        id: 'travel',
-        title: 'Traveling',
-        content: 'Visit different biblical locations to discover new quests and opportunities for growth.',
-        target: '#travelSelect',
-        action: 'finish'
-      }
     ];
 
-    /* ==============================================
-       State Management & Persistence
-       ============================================== */
-    const STORAGE_KEY = 'gospel_rpg_state_v2'; // Incremented for new features
+    // ----------------------------
+    // State & persistence
+    // ----------------------------
+    const STORAGE_KEY = 'gospel_rpg_state_v1';
 
     const defaultState = () => ({
-      stats: { faith: 0, wisdom: 0, service: 0 },
-      location: 'Galilee', // Default starting location
-      rewards: [], // array of {type, value}
-      items: [], // derived from rewards  
-      title: '', // Current character title
-      achievedMilestones: {}, // e.g., "faith:5": true
-      currentQuest: null,
-      log: [],
-      tutorialCompleted: false,
-      tutorialStep: 0,
-      gameStartTime: Date.now(),
-      playTime: 0
+      stats:{ faith:0, wisdom:0, service:0 },
+      location:[],
+      rewards:[],   // array of {type,value}
+      items:[],     // derived from rewards
+      title:[],
+      achievedMilestones:{}, // e.g., "faith:5":true
+      currentQuest:[],
+      log:[]
     });
 
     let state = load();
 
-    /* ==============================================
-       Storage and State Management Functions
-       ============================================== */
-    function save() { 
-      try {
-        state.playTime += Date.now() - state.gameStartTime;
-        state.gameStartTime = Date.now();
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      } catch (error) {
-        console.error('Failed to save game state:', error);
-        addLog('⚠️ Warning: Could not save progress.');
-      }
-    }
-    
-    function load() {
-      try {
+    function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)) }
+    function load(){
+      try{
         const raw = localStorage.getItem(STORAGE_KEY);
-        const loadedState = raw ? JSON.parse(raw) : defaultState();
-        
-        // Ensure all new properties exist for backward compatibility
-        const completeState = { ...defaultState(), ...loadedState };
-        completeState.gameStartTime = Date.now();
-        
-        return completeState;
-      } catch (error) {
-        console.error('Failed to load game state:', error);
-        addLog('⚠️ Warning: Could not load saved progress. Starting fresh.');
-        return defaultState();
-      }
+        return raw ? JSON.parse(raw) : defaultState();
+      }catch{ return defaultState() }
     }
-    
-    function reset() {
-      try {
-        state = defaultState();
-        addLog('🔄 Progress reset. Welcome back!');
-        
-        if (!state.tutorialCompleted) {
-          startTutorial();
-        } else {
-          enterLocation(state.location, { announce: false });
-        }
-        
-        render();
-        save();
-      } catch (error) {
-        console.error('Failed to reset game:', error);
-        addLog('❌ Error resetting game. Please refresh the page.');
-      }
-    }
-
-    
-    /* ==============================================
-       Utility Functions - Modernized with ES6+
-       ============================================== */
-    const $ = (selector) => {
-      try {
-        return document.querySelector(selector);
-      } catch (error) {
-        console.error(`Invalid selector: ${selector}`, error);
-        return null;
-      }
-    };
-    
-    const $$ = (selector) => {
-      try {
-        return document.querySelectorAll(selector);
-      } catch (error) {
-        console.error(`Invalid selector: ${selector}`, error);
-        return [];
-      }
-    };
-    
-    // Enhanced DOM element creation with error handling
-    const el = (tag, props = {}, children = []) => {
-      try {
-        const element = document.createElement(tag);
-        
-        Object.entries(props).forEach(([key, value]) => {
-          if (key === 'class') {
-            element.className = value;
-          } else if (key === 'html') {
-            element.innerHTML = value;
-          } else if (key === 'style' && typeof value === 'object') {
-            Object.assign(element.style, value);
-          } else {
-            element.setAttribute(key, value);
-          }
-        });
-        
-        [].concat(children).forEach(child => {
-          if (typeof child === 'string') {
-            element.appendChild(document.createTextNode(child));
-          } else if (child && child.nodeType) {
-            element.appendChild(child);
-          }
-        });
-        
-        return element;
-      } catch (error) {
-        console.error('Error creating element:', error);
-        return document.createElement('div'); // Fallback
-      }
-    };
-    
-    // Random selection utility
-    const pick = (array) => {
-      if (!Array.isArray(array) || array.length === 0) {
-        console.warn('pick() called with invalid array');
-        return null;
-      }
-      return array[Math.floor(Math.random() * array.length)];
-    };
-    
-    // Requirement checking utility  
-    const meets = (stats, requirements) => {
-      if (!stats || !requirements) return false;
-      return Object.entries(requirements).every(([stat, value]) => (stats[stat] || 0) >= value);
-    };
-    
-    // Reward utilities
-    const rewardKey = (reward) => `${reward.type}:${reward.value}`;
-    const hasReward = (reward) => state.rewards.some(r => rewardKey(r) === rewardKey(reward));
-    
-    // Enhanced logging with timestamps
-    const addLog = (line) => {
-      if (!line) return;
-      
-      const timestamp = new Date().toLocaleTimeString();
-      const logEntry = `[${timestamp}] ${line}`;
-      
-      state.log.unshift(logEntry);
-      state.log = state.log.slice(0, 100); // Keep last 100 entries
-      
-      // Auto-save on important events
-      save();
-    
-    /* ==============================================
-       Tutorial System Implementation
-       ============================================== */
-    const startTutorial = () => {
-      if (state.tutorialCompleted) return;
-      
-      state.tutorialStep = 0;
-      showTutorialStep();
-    };
-    
-    const showTutorialStep = () => {
-      const step = tutorialSteps[state.tutorialStep];
-      if (!step) {
-        completeTutorial();
-        return;
-      }
-      
-      const modal = createTutorialModal(step);
-      document.body.appendChild(modal);
-    };
-    
-    const createTutorialModal = (step) => {
-      const modal = el('div', {
-        class: 'tutorial-modal',
-        style: {
-          position: 'fixed',
-          top: '0',
-          left: '0',
-          right: '0',
-          bottom: '0',
-          background: 'rgba(0, 0, 0, 0.8)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: '1000'
-        }
-      }, [
-        el('div', {
-          class: 'tutorial-content',
-          style: {
-            background: 'var(--panel)',
-            border: '1px solid var(--accent)',
-            borderRadius: '12px',
-            padding: '24px',
-            maxWidth: '400px',
-            color: 'var(--text)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)'
-          }
-        }, [
-          el('h3', { style: { marginTop: '0', color: 'var(--accent)' } }, [step.title]),
-          el('p', { style: { lineHeight: '1.6' } }, [step.content]),
-          el('div', { 
-            style: { 
-              display: 'flex', 
-              gap: '10px', 
-              justifyContent: 'flex-end',
-              marginTop: '20px'
-            } 
-          }, [
-            step.action === 'finish' ? 
-              el('button', { 
-                class: 'btn',
-                style: { background: 'var(--good)' }
-              }, ['Start Playing!']) :
-              el('button', { class: 'btn' }, ['Next'])
-          ])
-        ])
-      ]);
-      
-      // Add click handler
-      const button = modal.querySelector('button');
-      button.addEventListener('click', () => {
-        document.body.removeChild(modal);
-        nextTutorialStep();
-      });
-      
-      return modal;
-    };
-    
-    const nextTutorialStep = () => {
-      state.tutorialStep++;
-      save();
-      
-      if (state.tutorialStep >= tutorialSteps.length) {
-        completeTutorial();
-      } else {
-        setTimeout(showTutorialStep, 300);
-      }
-    };
-    
-    const completeTutorial = () => {
-      state.tutorialCompleted = true;
-      state.tutorialStep = 0;
-      addLog('🎓 Tutorial completed! Begin your biblical journey.');
-      save();
-      
-      // Start the actual game
-      enterLocation('Galilee', { announce: true });
+    function reset(){
+      state = defaultState();
+      addLog('🔄 Progress reset.');
+      enterLocation(state.location, {announce:false});
       render();
-    };
+      save();
+    }
 
-    /* ==============================================
-       Core Game Systems
-       ============================================== */
-    const scenarioFor = (location) => {
-      const flavors = locationFlavors[location];
-      return pick(flavors || ['You continue on your way.']);
-    };
+    // ----------------------------
+    // Helpers
+    // ----------------------------
+    const $ = sel => document.querySelector(sel);
+    function el(tag, props={}, children=[]){
+      const e = document.createElement(tag);
+      Object.entries(props).forEach(([k,v])=>{
+        if(k==='class') e.className = v;
+        else if(k==='html') e.innerHTML = v;
+        else e.setAttribute(k, v);
+      });
+      [].concat(children).forEach(c => {
+        if(typeof c === 'string') e.appendChild(document.createTextNode(c));
+        else if(c) e.appendChild(c);
+      });
+      return e;
+    }
+    const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+    const meets = (stats, reqs) => Object.entries(reqs).every(([s,val]) => (stats[s]||0) >= val);
+    const rewardKey = r => `${r.type}:${r.value}`;
+    const hasReward = r => state.rewards.some(x => rewardKey(x)===rewardKey(r));
+
+    function addLog(line){
+      state.log.unshift(line);
+      state.log = state.log.slice(0, 80);
+    }
+
+    // ----------------------------
+    // Core systems
+    // ----------------------------
+    function scenarioFor(location){
+      return pick(locationFlavors[location] || ['You continue on your way.']);
+    }
 
     function assignQuest(location){
       const pool = questPool[location] || [];
