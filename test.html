@@ -73,18 +73,181 @@
     }
     .good{color:var(--good)} .warn{color:var(--warn)} .bad{color:var(--bad)}
     .sr{position:absolute; left:-9999px}
+    
+    /* Scene Management */
+    .scene{
+      opacity:0; transition: opacity 0.5s ease-in-out;
+      animation-fill-mode: forwards; 
+      visibility: hidden; pointer-events:none;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      overflow-y: auto;
+    }
+    .scene.active{
+      opacity:1; visibility: visible; pointer-events:auto;
+      position: relative; height: auto;
+    }
+    .scene.fade-in{
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+    .scene.fade-out{
+      animation: fadeOut 0.5s ease-in-out forwards;
+    }
+    @keyframes fadeIn{
+      from{opacity:0} to{opacity:1}
+    }
+    @keyframes fadeOut{
+      from{opacity:1} to{opacity:0}
+    }
+    
+    /* Title Scene Styles */
+    .title-scene{
+      min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding:40px 20px; background:linear-gradient(180deg,#0f1222 0%,#0f1428 50%,#1a1f48 100%);
+    }
+    .title-logo{
+      font-size:72px; margin-bottom:20px; text-shadow:0 0 20px var(--accent);
+    }
+    .title-heading{
+      font-size:48px; font-weight:700; margin:0 0 16px; letter-spacing:1px;
+      background:linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .title-subtitle{
+      font-size:24px; color:var(--muted); margin:0 0 40px; letter-spacing:0.5px;
+    }
+    .title-button{
+      font-size:20px; padding:16px 32px; background:linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+      color:#fff; border:none; border-radius:12px; cursor:pointer; font-weight:600; letter-spacing:0.5px;
+      box-shadow:0 8px 24px rgba(122,162,255,0.3); transition:all 0.3s ease;
+      margin:8px;
+    }
+    .title-button:hover{
+      transform:translateY(-2px); box-shadow:0 12px 32px rgba(122,162,255,0.4);
+    }
+    
+    /* Introduction Scene Styles */
+    .intro-scene{
+      min-height:100vh; padding:40px 20px; display:flex; flex-direction:column; justify-content:center;
+      max-width:800px; margin:0 auto; text-align:center;
+    }
+    .intro-content{
+      background:var(--panel); border:1px solid #262e66; border-radius:12px; padding:40px;
+      box-shadow:0 6px 18px rgba(0,0,0,.35);
+    }
+    .intro-text{
+      font-size:18px; line-height:1.6; color:var(--text); margin:0 0 32px;
+    }
+    
+    /* Settings Scene Styles */
+    .settings-scene{
+      min-height:100vh; padding:40px 20px; max-width:600px; margin:0 auto;
+    }
+    .settings-content{
+      background:var(--panel); border:1px solid #262e66; border-radius:12px; padding:40px;
+      box-shadow:0 6px 18px rgba(0,0,0,.35);
+    }
+    .setting-item{
+      display:flex; justify-content:space-between; align-items:center; padding:16px 0;
+      border-bottom:1px solid #2a3470;
+    }
+    .setting-item:last-child{border-bottom:none}
+    .setting-label{
+      font-size:16px; color:var(--text);
+    }
+    .setting-control{
+      display:flex; align-items:center; gap:12px;
+    }
+    
+    /* Credits Scene Styles */
+    .credits-scene{
+      min-height:100vh; padding:40px 20px; max-width:700px; margin:0 auto; text-align:center;
+    }
+    .credits-content{
+      background:var(--panel); border:1px solid #262e66; border-radius:12px; padding:40px;
+      box-shadow:0 6px 18px rgba(0,0,0,.35);
+    }
+    .credits-section{
+      margin:32px 0;
+    }
+    .credits-section h3{
+      color:var(--accent); font-size:20px; margin:0 0 16px; text-transform:uppercase; letter-spacing:0.5px;
+    }
+    .credits-list{
+      color:var(--text); font-size:16px; line-height:1.6;
+    }
+    
+    /* Navigation Styles */
+    .nav-buttons{
+      position:fixed; top:20px; right:20px; z-index:1000; display:flex; gap:12px;
+    }
+    .nav-btn{
+      background:rgba(22,27,63,0.9); border:1px solid #2a3470; color:var(--text);
+      padding:8px 12px; border-radius:8px; cursor:pointer; font-size:14px; backdrop-filter:blur(6px);
+      transition:all 0.2s ease;
+    }
+    .nav-btn:hover{
+      background:var(--btn-hover); transform:translateY(-1px);
+    }
+    .back-btn{
+      position:absolute; top:20px; left:20px; z-index:1000;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div style="font-size:18px">✝️</div>
-    <div>
-      <h1>bibleRPG</h1>
-      <div class="subtitle">Hear What The Spirit Says To The Soul!</div>
-    </div>
-  </header>
+  <!-- Navigation Buttons (hidden on title screen) -->
+  <nav class="nav-buttons" id="navButtons" style="display:none;" aria-label="Scene navigation">
+    <button class="nav-btn" onclick="showScene('settings')" aria-label="Open settings">⚙️</button>
+    <button class="nav-btn" onclick="showScene('credits')" aria-label="View credits">ℹ️</button>
+  </nav>
 
-  <main>
+  <!-- Title Screen Scene -->
+  <section class="scene title-scene active" id="titleScene" role="main" aria-labelledby="titleHeading">
+    <div class="title-logo" aria-hidden="true">✝️</div>
+    <h1 class="title-heading" id="titleHeading">bibleRPG</h1>
+    <p class="title-subtitle">Hear What The Spirit Says To The Soul!</p>
+    <div>
+      <button class="title-button" onclick="showScene('intro')" aria-describedby="startGameDesc">
+        Start Journey
+      </button>
+      <button class="title-button" onclick="showScene('gameplay')" aria-describedby="continueGameDesc">
+        Continue Adventure
+      </button>
+    </div>
+    <div class="sr">
+      <span id="startGameDesc">Begin a new spiritual journey</span>
+      <span id="continueGameDesc">Resume your existing adventure</span>
+    </div>
+  </section>
+
+  <!-- Introduction Scene -->
+  <section class="scene intro-scene" id="introScene" role="main" aria-labelledby="introHeading">
+    <button class="back-btn nav-btn" onclick="showScene('title')" aria-label="Back to title screen">← Back</button>
+    <div class="intro-content">
+      <h2 id="introHeading" style="color:var(--accent); font-size:32px; margin:0 0 24px;">Welcome, Faithful Traveler</h2>
+      <div class="intro-text">
+        <p>In the lands where our Savior once walked, a spiritual journey awaits you. As a faithful follower, you will travel through biblical locations, face moral choices, and grow in Faith, Wisdom, and Service.</p>
+        <p>Your decisions will shape your character and determine the quests available to you. Seek guidance through prayer, consult the wisdom of elders, and serve those in need along your path.</p>
+        <p>May the Spirit guide your steps as you embark on this sacred adventure.</p>
+      </div>
+      <button class="title-button" onclick="showScene('gameplay')" aria-label="Begin the adventure">
+        Begin Adventure
+      </button>
+    </div>
+  </section>
+
+  <!-- Main Gameplay Scene -->
+  <section class="scene" id="gameplayScene" role="main" aria-labelledby="gameplayHeading">
+    <button class="back-btn nav-btn" onclick="showScene('title')" aria-label="Back to title screen">← Menu</button>
+    
+    <header>
+      <div style="font-size:18px">✝️</div>
+      <div>
+        <h1 id="gameplayHeading">bibleRPG</h1>
+        <div class="subtitle">Hear What The Spirit Says To The Soul!</div>
+      </div>
+    </header>
+
+    <main>
     <section class="card" aria-live="polite" aria-atomic="true">
       <h2>Adventure</h2>
       <div class="section stack">
@@ -150,11 +313,254 @@
         </div>
       </div>
     </aside>
-  </main>
+    </main>
 
-  <div class="footer">2025 @ bibleRPG</div>
+    <div class="footer">2025 @ bibleRPG</div>
+  </section>
+
+  <!-- Settings Scene -->
+  <section class="scene settings-scene" id="settingsScene" role="main" aria-labelledby="settingsHeading">
+    <button class="back-btn nav-btn" onclick="showScene('title')" aria-label="Back to title screen">← Back</button>
+    <div class="settings-content">
+      <h2 id="settingsHeading" style="color:var(--accent); font-size:32px; margin:0 0 32px; text-align:center;">Settings</h2>
+      
+      <div class="setting-item">
+        <label class="setting-label" for="soundToggle">Sound Effects</label>
+        <div class="setting-control">
+          <input type="checkbox" id="soundToggle" checked aria-describedby="soundDesc">
+          <span class="sr" id="soundDesc">Toggle sound effects on or off</span>
+        </div>
+      </div>
+      
+      <div class="setting-item">
+        <label class="setting-label" for="musicToggle">Background Music</label>
+        <div class="setting-control">
+          <input type="checkbox" id="musicToggle" checked aria-describedby="musicDesc">
+          <span class="sr" id="musicDesc">Toggle background music on or off</span>
+        </div>
+      </div>
+      
+      <div class="setting-item">
+        <label class="setting-label" for="difficultySelect">Difficulty</label>
+        <div class="setting-control">
+          <select id="difficultySelect" aria-describedby="difficultyDesc">
+            <option value="easy">Beginner</option>
+            <option value="normal" selected>Faithful</option>
+            <option value="hard">Devoted</option>
+          </select>
+          <span class="sr" id="difficultyDesc">Choose game difficulty level</span>
+        </div>
+      </div>
+      
+      <div class="setting-item">
+        <label class="setting-label" for="textSizeSelect">Text Size</label>
+        <div class="setting-control">
+          <select id="textSizeSelect" aria-describedby="textSizeDesc">
+            <option value="small">Small</option>
+            <option value="normal" selected>Normal</option>
+            <option value="large">Large</option>
+          </select>
+          <span class="sr" id="textSizeDesc">Adjust text size for better readability</span>
+        </div>
+      </div>
+      
+      <div class="setting-item">
+        <label class="setting-label" for="autoSaveToggle">Auto-Save</label>
+        <div class="setting-control">
+          <input type="checkbox" id="autoSaveToggle" checked aria-describedby="autoSaveDesc">
+          <span class="sr" id="autoSaveDesc">Automatically save game progress</span>
+        </div>
+      </div>
+      
+      <div style="text-align:center; margin-top:32px;">
+        <button class="title-button" onclick="saveSettings()" aria-label="Save all settings">
+          Save Settings
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Credits Scene -->
+  <section class="scene credits-scene" id="creditsScene" role="main" aria-labelledby="creditsHeading">
+    <button class="back-btn nav-btn" onclick="showScene('title')" aria-label="Back to title screen">← Back</button>
+    <div class="credits-content">
+      <h2 id="creditsHeading" style="color:var(--accent); font-size:32px; margin:0 0 32px;">Credits & Acknowledgments</h2>
+      
+      <div class="credits-section">
+        <h3>Game Development</h3>
+        <div class="credits-list">
+          <p><strong>Lead Developer:</strong> Adam F</p>
+          <p><strong>UI/UX Design:</strong> bibleRPG Team</p>
+          <p><strong>Game Mechanics:</strong> Community Contributors</p>
+        </div>
+      </div>
+      
+      <div class="credits-section">
+        <h3>Spiritual Content</h3>
+        <div class="credits-list">
+          <p><strong>Scripture References:</strong> Holy Bible (Various Translations)</p>
+          <p><strong>Biblical Locations:</strong> Historical Research</p>
+          <p><strong>Moral Guidance:</strong> Christian Ethics Scholars</p>
+        </div>
+      </div>
+      
+      <div class="credits-section">
+        <h3>Technical Framework</h3>
+        <div class="credits-list">
+          <p><strong>Frontend:</strong> HTML5, CSS3, JavaScript</p>
+          <p><strong>Icons:</strong> Unicode Emoji</p>
+          <p><strong>Accessibility:</strong> ARIA Standards</p>
+        </div>
+      </div>
+      
+      <div class="credits-section">
+        <h3>Special Thanks</h3>
+        <div class="credits-list">
+          <p>To all believers who seek to grow in Faith, Wisdom, and Service</p>
+          <p>Open source community for inspiration and support</p>
+          <p>Beta testers and feedback contributors</p>
+        </div>
+      </div>
+      
+      <div style="text-align:center; margin-top:32px;">
+        <p style="color:var(--muted); font-style:italic;">
+          "But those who hope in the Lord will renew their strength" - Isaiah 40:31
+        </p>
+      </div>
+    </div>
+  </section>
 
   <script>
+    // ----------------------------
+    // Scene Management
+    // ----------------------------
+    let currentScene = 'title';
+    
+    function showScene(sceneName) {
+      const scenes = document.querySelectorAll('.scene');
+      const navButtons = document.getElementById('navButtons');
+      
+      // Hide current scene with fade out
+      const currentSceneEl = document.getElementById(currentScene + 'Scene');
+      if (currentSceneEl) {
+        currentSceneEl.classList.add('fade-out');
+        currentSceneEl.addEventListener('animationend', function handleFadeOut() {
+          currentSceneEl.classList.remove('active', 'fade-out');
+          currentSceneEl.removeEventListener('animationend', handleFadeOut);
+          
+          // Show new scene with fade in
+          const newSceneEl = document.getElementById(sceneName + 'Scene');
+          if (newSceneEl) {
+            newSceneEl.classList.add('active', 'fade-in');
+            newSceneEl.addEventListener('animationend', function handleFadeIn() {
+              newSceneEl.classList.remove('fade-in');
+              newSceneEl.removeEventListener('animationend', handleFadeIn);
+            }, { once: true });
+          }
+        }, { once: true });
+      }
+      
+      currentScene = sceneName;
+      
+      // Show/hide navigation buttons based on scene
+      if (sceneName === 'title') {
+        navButtons.style.display = 'none';
+      } else {
+        navButtons.style.display = 'flex';
+      }
+      
+      // Announce scene change for screen readers
+      announceSceneChange(sceneName);
+    }
+    
+    function announceSceneChange(sceneName) {
+      const announcer = document.createElement('div');
+      announcer.setAttribute('aria-live', 'polite');
+      announcer.setAttribute('aria-atomic', 'true');
+      announcer.className = 'sr';
+      announcer.textContent = `Navigated to ${sceneName} scene`;
+      document.body.appendChild(announcer);
+      setTimeout(() => document.body.removeChild(announcer), 1000);
+    }
+    
+    // ----------------------------
+    // Settings Management
+    // ----------------------------
+    function loadSettings() {
+      const settings = JSON.parse(localStorage.getItem('bibleRPG_settings') || '{}');
+      
+      // Apply saved settings
+      if (settings.sound !== undefined) {
+        document.getElementById('soundToggle').checked = settings.sound;
+      }
+      if (settings.music !== undefined) {
+        document.getElementById('musicToggle').checked = settings.music;
+      }
+      if (settings.difficulty) {
+        document.getElementById('difficultySelect').value = settings.difficulty;
+      }
+      if (settings.textSize) {
+        document.getElementById('textSizeSelect').value = settings.textSize;
+        applyTextSize(settings.textSize);
+      }
+      if (settings.autoSave !== undefined) {
+        document.getElementById('autoSaveToggle').checked = settings.autoSave;
+      }
+    }
+    
+    function saveSettings() {
+      const settings = {
+        sound: document.getElementById('soundToggle').checked,
+        music: document.getElementById('musicToggle').checked,
+        difficulty: document.getElementById('difficultySelect').value,
+        textSize: document.getElementById('textSizeSelect').value,
+        autoSave: document.getElementById('autoSaveToggle').checked
+      };
+      
+      localStorage.setItem('bibleRPG_settings', JSON.stringify(settings));
+      applyTextSize(settings.textSize);
+      
+      // Show confirmation
+      const button = event.target;
+      const originalText = button.textContent;
+      button.textContent = 'Settings Saved!';
+      button.style.background = 'var(--good)';
+      setTimeout(() => {
+        button.textContent = originalText;
+        button.style.background = '';
+      }, 2000);
+    }
+    
+    function applyTextSize(size) {
+      const root = document.documentElement;
+      switch(size) {
+        case 'small':
+          root.style.fontSize = '20px';
+          break;
+        case 'large':
+          root.style.fontSize = '28px';
+          break;
+        default:
+          root.style.fontSize = '24px';
+      }
+    }
+    
+    // ----------------------------
+    // Keyboard Navigation
+    // ----------------------------
+    document.addEventListener('keydown', function(e) {
+      // ESC key to go back to title
+      if (e.key === 'Escape' && currentScene !== 'title') {
+        showScene('title');
+      }
+      
+      // Prevent default behavior only for our custom keys
+      if (['Escape'].includes(e.key)) {
+        e.preventDefault();
+      }
+    });
+
+    // ----------------------------
     // ----------------------------
     // Data tables
     // ----------------------------
@@ -521,6 +927,26 @@
     // Boot
     // ----------------------------
     window.addEventListener('DOMContentLoaded', ()=>{
+      // Initialize settings
+      loadSettings();
+      
+      // Initialize UI only when in gameplay scene
+      if (currentScene === 'gameplay') {
+        initUI();
+        // First-time arrival narrative
+        if(state.log.length===0){
+          enterLocation(state.location, {announce:true});
+        }else{
+          // Ensure scenario shows something on reload
+          $('#scenario').innerHTML = state.log.slice(0,3).reverse().map(l=>`<p>${l}</p>`).join('');
+        }
+        render();
+        save();
+      }
+    });
+    
+    // Initialize gameplay when entering gameplay scene
+    function initGameplay() {
       initUI();
       // First-time arrival narrative
       if(state.log.length===0){
@@ -531,7 +957,17 @@
       }
       render();
       save();
-    });
+    }
+    
+    // Override showScene to handle gameplay initialization
+    const originalShowScene = showScene;
+    showScene = function(sceneName) {
+      originalShowScene(sceneName);
+      if (sceneName === 'gameplay') {
+        // Delay initialization to ensure scene is visible
+        setTimeout(initGameplay, 100);
+      }
+    };
   </script>
 </body>
 </html>
