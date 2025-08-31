@@ -68,6 +68,34 @@ const SCRIPTURES = [
         chapter: 4,
         verse: 13,
         text: "I can do all things through Christ which strengtheneth me."
+    },
+    {
+        id: 11,
+        book: "Philippians",
+        chapter: 4,
+        verse: 8,
+        text: "Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things."
+    },
+    {
+        id: 12,
+        book: "1 Corinthians",
+        chapter: 13,
+        verse: 5,
+        text: "Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil;"
+    },
+    {
+        id: 13,
+        book: "1 Corinthians",
+        chapter: 13,
+        verse: 6,
+        text: "Rejoiceth not in iniquity, but rejoiceth in the truth;"
+    },
+    {
+        id: 14,
+        book: "1 Corinthians",
+        chapter: 13,
+        verse: 7,
+        text: "Beareth all things, believeth all things, hopeth all things, endureth all things."
     }
 ];
 
@@ -101,5 +129,38 @@ const QUESTS = [
         scripture: "Luke 15:4-7",
         scriptureText: "What man of you, having an hundred sheep, if he lose one of them, doth not leave the ninety and nine in the wilderness, and go after that which is lost, until he find it?...",
         completed: false,
+    },
+    {
+        id: 4,
+        npc: 2,
+        title: "Think on These Things",
+        dialogue: "NPC: 'Finally, brethren, whatsoever things are true, honest, just, pure...' (Philippians 4:8)\nWill you meditate on virtue?",
+        completion: "You have grown in wisdom by thinking on virtuous things.",
+        scripture: "Philippians 4:8",
+        scriptureText: "Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things.",
+        completed: false,
+        virtueReward: { virtue: 2, praise: 1, think: 3 }
+    },
+    {
+        id: 5,
+        npc: 1,
+        title: "Love Envieth Not",
+        dialogue: "NPC: 'Charity suffereth long, and is kind; charity envieth not...' (1 Corinthians 13:4)\nWill you practice selfless love?",
+        completion: "You have shown charity that envieth not and seeketh not her own.",
+        scripture: "1 Corinthians 13:4-5",
+        scriptureText: "Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up, Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil;",
+        completed: false,
+        virtueReward: { charity: 3, kind: 2, 'envieth_not': 2, 'not_self_seeking': 2 }
+    },
+    {
+        id: 6,
+        npc: 2,
+        title: "Rejoice in Truth",
+        dialogue: "NPC: 'Rejoiceth not in iniquity, but rejoiceth in the truth...' (1 Corinthians 13:6)\nWill you stand for truth?",
+        completion: "You have chosen truth over falsehood and gained honesty.",
+        scripture: "1 Corinthians 13:6",
+        scriptureText: "Rejoiceth not in iniquity, but rejoiceth in the truth;",
+        completed: false,
+        virtueReward: { true: 3, honest: 2, just: 1 }
     }
 ];

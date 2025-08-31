@@ -29,6 +29,21 @@ const player = {
     inventory: [],
     health: 100,
     xp: 0,
+    virtues: {
+        think: 0,
+        charity: 0,
+        kind: 0,
+        envieth_not: 0,
+        not_self_seeking: 0,
+        true: 0,
+        honest: 0,
+        just: 0,
+        pure: 0,
+        lovely: 0,
+        good_report: 0,
+        virtue: 0,
+        praise: 0
+    }
 };
 
 function saveGame() {
@@ -165,6 +180,18 @@ function updateHUD() {
     document.getElementById('health-value').innerText = player.health;
     document.getElementById('xp-value').innerText = player.xp;
     document.getElementById('inventory').innerText = "Inventory: " + (player.inventory.length ? player.inventory.join(', ') : 'Empty');
+    
+    // Display virtues that have been gained
+    const virtueElements = [];
+    for (const [virtue, value] of Object.entries(player.virtues)) {
+        if (value > 0) {
+            const displayName = virtue.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            virtueElements.push(`${displayName}: ${value}`);
+        }
+    }
+    document.getElementById('virtues').innerText = virtueElements.length > 0 
+        ? "Virtues: " + virtueElements.join(', ') 
+        : "Virtues: None yet";
 }
 function updateQuestLog() {
     const log = document.getElementById('quest-log');
@@ -193,7 +220,19 @@ function interact() {
                 } else if (!quest.completed) {
                     quest.completed = true;
                     player.xp += 20;
-                    showQuest(`Quest completed: ${quest.title}`);
+                    
+                    // Apply virtue rewards if present
+                    if (quest.virtueReward) {
+                        let virtueGains = [];
+                        for (const [virtue, amount] of Object.entries(quest.virtueReward)) {
+                            player.virtues[virtue] += amount;
+                            virtueGains.push(`${virtue.replace('_', ' ')}: +${amount}`);
+                        }
+                        showQuest(`Quest completed: ${quest.title} (${virtueGains.join(', ')})`);
+                    } else {
+                        showQuest(`Quest completed: ${quest.title}`);
+                    }
+                    
                     showDialogue(quest.completion);
                     showScriptureButton(quest);
                 }
