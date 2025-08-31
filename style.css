@@ -16,8 +16,13 @@
     --border-light: #2a3470;
 }
 
+/* Performance Optimizations */
 * {
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 html, body {
@@ -30,6 +35,35 @@ body {
     font: 16px/1.4 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text);
     background: linear-gradient(180deg, var(--bg) 0%, #0f1428 70%, var(--bg) 100%);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --bg: #000;
+        --text: #fff;
+        --border: #fff;
+        --accent: #00ff00;
+        --bad: #ff0000;
+        --warn: #ffff00;
+        --good: #00ff00;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    html {
+        scroll-behavior: auto;
+    }
 }
 
 /* Accessibility */
@@ -70,7 +104,7 @@ h1 {
 }
 
 /* Main Layout */
-main#app {
+main#main-content {
     width: 100%;
     min-height: calc(100vh - 120px);
     display: flex;
@@ -331,7 +365,66 @@ main#app {
     transform: translateY(0);
 }
 
-/* Responsive Design */
+/* Focus management for accessibility */
+#close-scripture:focus,
+button:focus,
+select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    header, #hud, #ui, #quest-log {
+        display: none;
+    }
+    
+    #gameCanvas {
+        border: none;
+        box-shadow: none;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+}
+
+/* Dark mode optimization */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+    }
+}
+
+/* Additional utility classes */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 9999;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
 @media (max-width: 900px) {
     #hud { 
         grid-template-columns: 1fr;

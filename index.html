@@ -11,40 +11,42 @@
 </head>
 
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <header>
         <h1>Bible RPG</h1>
         <p class="subtitle">Journey Through Scripture</p>
     </header>
     
-    <main id="app">
+    <main id="main-content">
         <section class="game-container">
             <canvas id="gameCanvas" width="640" height="480" 
-                    aria-label="Game world canvas"></canvas>
+                    aria-label="Game world canvas - Use arrow keys to move, space to interact"></canvas>
         </section>
         
         <section id="ui" aria-label="Game interface">
-            <div id="dialogue" role="alert" aria-live="polite"></div>
-            <div id="quest" role="alert" aria-live="polite"></div>
+            <div id="dialogue" role="alert" aria-live="polite" aria-atomic="true"></div>
+            <div id="quest" role="alert" aria-live="polite" aria-atomic="true"></div>
         </section>
         
         <section id="hud" aria-label="Player statistics">
-            <div id="health-bar" class="stat-display">
+            <div id="health-bar" class="stat-display" role="status" aria-label="Player health">
                 <span class="stat-label">Health:</span> 
                 <span id="health-value" class="stat-value">100</span>
             </div>
-            <div id="xp-bar" class="stat-display">
+            <div id="xp-bar" class="stat-display" role="status" aria-label="Experience points">
                 <span class="stat-label">XP:</span> 
                 <span id="xp-value" class="stat-value">0</span>
             </div>
-            <div id="inventory" class="info-display"></div>
-            <div id="virtues" class="info-display"></div>
+            <div id="inventory" class="info-display" role="status" aria-label="Player inventory"></div>
+            <div id="virtues" class="info-display" role="status" aria-label="Player virtues"></div>
             <div id="minimap-container">
                 <canvas id="minimap" width="100" height="75" 
-                        aria-label="Mini map"></canvas>
+                        aria-label="Mini map showing player location"></canvas>
             </div>
         </section>
         
-        <aside id="quest-log" aria-label="Quest log"></aside>
+        <aside id="quest-log" aria-label="Quest log" role="complementary"></aside>
     </main>
     
     <!-- Scripture Modal -->
