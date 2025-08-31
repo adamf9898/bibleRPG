@@ -262,13 +262,43 @@ function showScriptureButton(quest) {
 window.showScripture = function(ref) {
     const q = QUESTS.find(q => q.scripture === ref);
     if (!q) return;
-    document.getElementById('scripture-content').innerHTML =
-        `<b>${q.scripture}</b><br><br>${q.scriptureText}`;
+    
+    const titleElement = document.getElementById('scripture-title');
+    const textElement = document.getElementById('scripture-text');
+    
+    titleElement.textContent = q.scripture;
+    titleElement.classList.remove('sr-only'); // Make title visible
+    textElement.innerHTML = `<strong>${q.scripture}</strong><br><br>${q.scriptureText}`;
+    
     document.getElementById('scripture-modal').classList.remove('hidden');
+    document.getElementById('close-scripture').focus(); // Accessibility
 };
 document.getElementById('close-scripture').onclick = () => {
     document.getElementById('scripture-modal').classList.add('hidden');
 };
+
+// Enhanced modal interaction
+document.getElementById('scripture-modal').onclick = (e) => {
+    if (e.target.id === 'scripture-modal') {
+        document.getElementById('scripture-modal').classList.add('hidden');
+    }
+};
+
+// Keyboard navigation for accessibility
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('scripture-modal');
+        if (!modal.classList.contains('hidden')) {
+            modal.classList.add('hidden');
+        }
+    }
+});
+
+// Initialize HUD values
+document.addEventListener('DOMContentLoaded', () => {
+    updateHUD();
+    showDialogue("Use arrow keys to move. Space to interact. Progress is saved.");
+});
 
 function getCurrentQuest(npcId) {
     // Each NPC gives a different quest

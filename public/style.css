@@ -1,15 +1,58 @@
+:root {
+    --bg: #0f1222;
+    --panel: #151936;
+    --panel-2: #1c2150;
+    --accent: #7aa2ff;
+    --accent-2: #70f0c4;
+    --text: #e9ebff;
+    --muted: #9aa3cf;
+    --good: #70f0c4;
+    --warn: #ffd166;
+    --bad: #ff6b6b;
+    --btn: #222a63;
+    --btn-hover: #2a3482;
+    --chip: #232a5a;
+    --border: #262e66;
+    --border-light: #2a3470;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #000000;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text);
+    background: linear-gradient(180deg, var(--bg) 0%, #0f1428 70%, var(--bg) 100%);
+    min-height: 100vh;
 }
 
 #app {
     width: 100%;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
+}
+
+#game-container {
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+#game-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+canvas {
+    border-radius: 8px;
+    display: block;
 }

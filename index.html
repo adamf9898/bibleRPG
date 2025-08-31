@@ -4,33 +4,58 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="./favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="An open world, action-adventure RPG web game inspired by The King James Version of The Bible." />
+    <meta name="theme-color" content="#0f1222" />
     <link rel="stylesheet" href="./style.css">
-    <title>bibleRPG</title>
+    <title>Bible RPG - Journey Through Scripture</title>
 </head>
 
 <body>
-    <h1>bibleRPG</h1>
-    <div id="app">
-        <canvas id="gameCanvas" width="640" height="480"></canvas>
-        <div id="ui">
-            <div id="dialogue"></div>
-            <div id="quest"></div>
+    <header>
+        <h1>Bible RPG</h1>
+        <p class="subtitle">Journey Through Scripture</p>
+    </header>
+    
+    <main id="app">
+        <section class="game-container">
+            <canvas id="gameCanvas" width="640" height="480" 
+                    aria-label="Game world canvas"></canvas>
+        </section>
+        
+        <section id="ui" aria-label="Game interface">
+            <div id="dialogue" role="alert" aria-live="polite"></div>
+            <div id="quest" role="alert" aria-live="polite"></div>
+        </section>
+        
+        <section id="hud" aria-label="Player statistics">
+            <div id="health-bar" class="stat-display">
+                <span class="stat-label">Health:</span> 
+                <span id="health-value" class="stat-value">100</span>
+            </div>
+            <div id="xp-bar" class="stat-display">
+                <span class="stat-label">XP:</span> 
+                <span id="xp-value" class="stat-value">0</span>
+            </div>
+            <div id="inventory" class="info-display"></div>
+            <div id="virtues" class="info-display"></div>
+            <div id="minimap-container">
+                <canvas id="minimap" width="100" height="75" 
+                        aria-label="Mini map"></canvas>
+            </div>
+        </section>
+        
+        <aside id="quest-log" aria-label="Quest log"></aside>
+    </main>
+    
+    <!-- Scripture Modal -->
+    <div id="scripture-modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="scripture-title">
+        <div id="scripture-content">
+            <h2 id="scripture-title" class="sr-only">Scripture Reading</h2>
+            <div id="scripture-text"></div>
+            <button id="close-scripture" aria-label="Close scripture modal">Close</button>
         </div>
     </div>
-    <div id="hud">
-        <div id="health-bar"><span id="health-label">Health:</span> <span id="health-value"></span></div>
-        <div id="xp-bar"><span id="xp-label">XP:</span> <span id="xp-value"></span></div>
-        <div id="inventory"></div>
-        <div id="virtues"></div>
-        <div id="minimap-container">
-            <canvas id="minimap" width="100" height="75"></canvas>
-        </div>
-    </div>
-    <div id="quest-log"></div>
-    <div id="scripture-modal" class="hidden">
-        <div id="scripture-content"></div>
-        <button id="close-scripture">Close</button>
-    </div>
+    
     <script src="bible.js"></script>
     <script src="main.js"></script>
 </body>
