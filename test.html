@@ -346,6 +346,17 @@
       return notes;
     }
 
+    // Safely escape HTML special characters in text to prevent XSS
+    function escapeHtml(str) {
+      if (typeof str !== 'string') return str;
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
     function checkLocationBlessings(location){
       const list = locationBlessings[location] || [];
       const notes = [];
@@ -383,7 +394,7 @@
       }
 
       addLog(lines.join(' '));
-      $('#scenario').innerHTML = lines.map(l => `<p>${l}</p>`).join('');
+      $('#scenario').innerHTML = lines.map(l => `<p>${escapeHtml(l)}</p>`).join('');
       save();
     }
 
@@ -404,7 +415,7 @@
       const lines = [choiceLine];
       if(milestoneNotes.length) lines.push(...milestoneNotes);
 
-      $('#scenario').innerHTML = lines.map(l => `<p>${l}</p>`).join('');
+      $('#scenario').innerHTML = lines.map(l => `<p>${escapeHtml(l)}</p>`).join('');
 
       // Travel after a short beat to simulate turn flow
       setTimeout(()=>{
@@ -527,7 +538,7 @@
         enterLocation(state.location, {announce:true});
       }else{
         // Ensure scenario shows something on reload
-        $('#scenario').innerHTML = state.log.slice(0,3).reverse().map(l=>`<p>${l}</p>`).join('');
+        $('#scenario').innerHTML = state.log.slice(0,3).reverse().map(l=>`<p>${escapeHtml(l)}</p>`).join('');
       }
       render();
       save();
