@@ -1,0 +1,161 @@
+webpack/config.dev.js -> [webpack/config.dev.js](webpack/config.dev.js)
+Flow: Read plugins & rules -> Configure devServer -> export webpack config
+
+webpack/config.prod.js -> [webpack/config.prod.js](webpack/config.prod.js)
+Flow: Read plugins & optimizations -> set production rules (file-loader/Terser) -> export webpack config
+
+test/test.js -> [test/test.js](test/test.js)
+Flow: Dev webpack config copy -> configure devServer -> export config
+
+package.json -> [package.json](package.json)
+Flow: Define scripts (dev/build) & deps -> npm lifecycle invokes log.js + webpack
+
+log.js -> [log.js](log.js)
+Flow: Read package.json -> HTTP GET telemetry -> exit(0|1)
+
+index.html -> [index.html](index.html)
+Flow: DOM structure -> canvas + HUD + modal -> load bible.js + main.js
+
+test.html -> [test.html](test.html)
+Flow: UI layout & game controls -> inline game demo logic -> localStorage persistence
+
+bible.js -> [bible.js](bible.js)
+Flow: Define SCRIPTURES array + QUESTS array -> used by main.js UI and gameplay
+
+main.js -> [main.js](main.js)
+Flow: Build map & player -> rendering loop (drawMap, drawPlayer, drawMinimap) -> input handlers (move, interact) -> save/load
+
+style.css -> [style.css](style.css)
+Flow: Define theme variables & UI layout rules -> used by index.html
+
+public/style.css -> [public/style.css](public/style.css)
+Flow: Provide public HUD and container styles -> served by devServer / copied in prod
+
+src/main.ts -> [src/main.ts](src/main.ts) and symbol: [`StartGame`](src/main.ts)
+Flow: import [`StartGame`](src/main.ts) -> DOMContentLoaded -> call StartGame('game-container')
+
+src/global.d.ts -> [src/global.d.ts](src/global.d.ts)
+Flow: Declare asset/shader module types -> TypeScript ambient module support
+
+src/game/main.ts -> [src/game/main.ts](src/game/main.ts) and symbol: [`StartGame`](src/game/main.ts)
+Flow: Import scenes -> build Phaser config -> export default [`StartGame`](src/game/main.ts) -> creates new Phaser.Game
+
+src/game/scenes/Boot.ts -> [src/game/scenes/Boot.ts](src/game/scenes/Boot.ts) and symbol: [`Boot`](src/game/scenes/Boot.ts)
+Flow: preload minimal assets (background) -> this.scene.start('Preloader')
+
+src/game/scenes/Preloader.ts -> [src/game/scenes/Preloader.ts](src/game/scenes/Preloader.ts) and symbol: [`Preloader`](src/game/scenes/Preloader.ts)
+Flow: display progress UI -> this.load assets (logo) -> on complete this.scene.start('MainMenu')
+
+src/game/scenes/MainMenu.ts -> [src/game/scenes/MainMenu.ts](src/game/scenes/MainMenu.ts) and symbol: [`MainMenu`](src/game/scenes/MainMenu.ts)
+Flow: display background/logo/title -> wait pointerdown -> this.scene.start('Game')
+
+src/game/scenes/Game.ts -> [src/game/scenes/Game.ts](src/game/scenes/Game.ts) and symbol: [`Game`](src/game/scenes/Game.ts)
+Flow: set background + message -> on pointerdown start 'GameOver'
+
+src/game/scenes/GameOver.ts -> [src/game/scenes/GameOver.ts](src/game/scenes/GameOver.ts) and symbol: [`GameOver`](src/game/scenes/GameOver.ts)
+Flow: show Game Over screen -> on pointerdown return to 'MainMenu'
+
+src/game/scenes/* (scenes group) -> [src/game/scenes](src/game/scenes)
+Flow: Boot -> Preloader -> MainMenu -> Game -> GameOver (scene flow in [`src/game/main.ts`](src/game/main.ts))
+
+src/game/* (other assets) -> [src/game](src/game)
+Flow: Game logic & assets consumed by Phaser scenes
+
+shared/types.ts -> [shared/types.ts](shared/types.ts)
+Flow: Export interfaces Player, Item, Quest -> shared type contracts between client/server
+
+server/index.ts -> [server/index.ts](server/index.ts)
+Flow: express app -> create http server -> socket.io attach -> on connection register 'playerAction' -> listen PORT
+
+server/package.json -> [server/package.json](server/package.json)
+Flow: dev script -> ts-node-dev for server hot reload
+
+server/tsconfig.json -> [server/tsconfig.json](server/tsconfig.json)
+Flow: TS compile options for server (CommonJS target) -> used by ts-node-dev
+
+server/game/world.ts -> [server/game/world.ts](server/game/world.ts)
+Flow: Define World interfaces + initialWorld -> used by server game logic
+
+server/game/quests.ts -> [server/game/quests.ts](server/game/quests.ts)
+Flow: Import [`Quest`](shared/types.ts) -> export quests array
+
+server/game/actions.ts -> [server/game/actions.ts](server/game/actions.ts)
+Flow: Define `PlayerAction` union -> [`handlePlayerAction`](server/game/actions.ts) switch on action -> log TODOs
+
+client/package.json -> [client/package.json](client/package.json)
+Flow: Vite dev + build scripts -> React + socket.io-client deps
+
+client/vite.config.ts -> [client/vite.config.ts](client/vite.config.ts)
+Flow: configure Vite with React plugin -> export dev server config (port 3000)
+
+client/tsconfig.json -> [client/tsconfig.json](client/tsconfig.json)
+Flow: TS settings for client (jsx react-jsx, paths)
+
+client/public/index.html -> [client/public/index.html](client/public/index.html)
+Flow: root HTML used by Vite -> mount point #root
+
+client/src/index.tsx -> [client/src/index.tsx](client/src/index.tsx)
+Flow: find #root -> createRoot -> render <App />
+
+client/src/App.tsx -> [client/src/App.tsx](client/src/App.tsx)
+Flow: simple React component -> exported default App
+
+client/src/game/world.ts -> [client/src/game/world.ts](client/src/game/world.ts) and symbol: [`World`](client/src/game/world.ts)
+Flow: World class (width/height/entities) -> add/remove/move/getEntity utilities
+
+client/src/game/story.ts -> [client/src/game/story.ts](client/src/game/story.ts)
+Flow: Define StoryNode/Choice/GameState types -> export `storyNodes` graph (start -> branches)
+
+client/src/game/quests.ts -> [client/src/game/quests.ts](client/src/game/quests.ts) and symbol: [`QuestManager`](client/src/game/quests.ts)
+Flow: Quest types -> `QuestManager` class manages quest lifecycle (add/get/update/complete)
+
+client/src/game/player.ts -> [client/src/game/player.ts](client/src/game/player.ts)
+Flow: Player types -> [`createDefaultPlayer`](client/src/game/player.ts) (uses crypto.randomUUID)
+
+client/src/game/npc.ts -> [client/src/game/npc.ts](client/src/game/npc.ts)
+Flow: NPC interface -> `BasicNPC` class with interact() -> console logging dialogue
+
+client/src/game/GameCanvas.tsx -> [client/src/game/GameCanvas.tsx](client/src/game/GameCanvas.tsx)
+Flow: React canvas wrapper -> onInit callback -> exposes canvas ref
+
+client/src/game/network.ts -> [client/src/game/network.ts](client/src/game/network.ts) and symbol: [`GameNetwork`](client/src/game/network.ts)
+Flow: WebSocket wrapper -> connect -> onmessage parse JSON -> send/disconnect APIs
+
+client/src/game/items.ts -> [client/src/game/items.ts](client/src/game/items.ts)
+Flow: Define Item type + example items list -> used by client inventory
+
+client/src/components/QuestLog.tsx -> [client/src/components/QuestLog.tsx](client/src/components/QuestLog.tsx)
+Flow: Present list of quests -> handler onSelectQuest -> visual completed state
+
+client/src/components/Chat.tsx -> [client/src/components/Chat.tsx](client/src/components/Chat.tsx)
+Flow: UI state for chat -> send via onSend prop -> auto-scroll to newest message
+
+public/ (folder) -> [public/](public)
+Flow: static assets served by devServer and copied by CopyPlugin in prod
+
+README.md -> [README.md](README.md)
+Flow: Project overview -> install & run instructions
+
+LICENSE -> [LICENSE](LICENSE)
+Flow: MIT license text
+
+SECURITY.md -> [SECURITY.md](SECURITY.md)
+Flow: Security policy template
+
+.template files (template.html, template.md) -> [template.html](template.html) [template.md](template.md)
+Flow: Project templates / docs
+
+.tsconfig.json (root) -> [tsconfig.json](tsconfig.json)
+Flow: TS compile options for the client/game sources -> include "src"
+
+.babelrc -> [.babelrc](.babelrc)
+Flow: Babel preset env -> target browsers config
+
+.gitignore -> [.gitignore](.gitignore)
+Flow: ignore node_modules, dist, editor files
+
+test/ (folder) -> [test/](test)
+Flow: test-specific webpack copy and configs
+
+Other assets (screenshot.png, favicon, etc.) -> [screenshot.png](screenshot.png) [public/favicon.png](public/favicon.png)
+Flow: static files referenced by HTML / webpack copy

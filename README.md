@@ -1,17 +1,12 @@
+# **bibleRPG**
+
 <!--
 2025-08-27
 adamf9898
 -->
 
----
-
-# **bibleRPG**
-
----
-
 ## Table of Contents
 
----
 - [About](#about)
 - [Features](#features)
 - [Installation](#installation)
@@ -26,9 +21,9 @@ adamf9898
 
 ---
 
-**Description**: An open world, action-adventure RPG web game inspired by The King James Version of The Bible. Players explore, interact, and share The Gospel through immersive gameplay, scripture-based quests, and dynamic storytelling.
+**Description**: bibleRPG is a massive online, open world action-adventure RPG inspired by the King James Version of The Bible. Experience immersive gameplay where you explore diverse environments, complete scripture-based quests, and interact with characters and events rooted in biblical teachings. Share The Gospel through dynamic storytelling, meaningful choices, and engaging multiplayer features that encourage discussion, discovery, and spiritual growth.
 
-**"Hear what The Spirit says to the soul in this action, adventure, chaotic, open world, role playing, web game based on sharing The Gospel and scripture from The King James Version of The BIBLE."**
+> "Hear what The Spirit says to the soul in this action, adventure, chaotic, open world, role playing, web game based on sharing The Gospel and scripture from The King James Version of The BIBLE."
 
   ---
 
@@ -50,18 +45,25 @@ adamf9898
 ---
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/bibleRPG.git
    ```
+
 2. Navigate to the project directory:
+
    ```bash
    cd bibleRPG
    ```
+
 3. Install dependencies:
+
    ```bash
    npm install
    ```
+
 4. Start the development server:
+
    ```bash
    npm start
    ```
